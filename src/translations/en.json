@@ -1,2 +1,20 @@
 {
+    "payment.PremiumsPayments": "Payments",
+    "payment.payment.typeOfPayment": "Type Of Payment",
+    "payment.payment.requestDate": "Request Date",
+    "payment.payment.expectedAmount": "Expected Amount",
+    "payment.payment.receivedDate": "Received Date",
+    "payment.payment.receivedAmount": "Received Amount",
+    "payment.payment.receiptNo": "Receipt No",
+    "payment.payment.status": "Status",
+    "payment.payment.status.null": "Any",
+    "payment.payment.status.none": " ",
+    "payment.payment.status.-3": "Rejected",
+    "payment.payment.status.-2": "Rejected",
+    "payment.payment.status.-1": "Rejected",    
+    "payment.payment.status.1": "Not Yet Confirmed",
+    "payment.payment.status.2": "Posted",
+    "payment.payment.status.3": "Assigned",
+    "payment.payment.status.4": "Unmatched",
+    "payment.payment.status.5": "Matched"
 }
