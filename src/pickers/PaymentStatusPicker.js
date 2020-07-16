@@ -3,7 +3,7 @@ import { ConstantBasedPicker } from "@openimis/fe-core";
 
 import { PAYMENT_STATUS } from "../constants";
 
-class PaymentStatusTypePicker extends Component {
+class PaymentStatusPicker extends Component {
 
     render() {
         return <ConstantBasedPicker
@@ -15,4 +15,4 @@ class PaymentStatusTypePicker extends Component {
     }
 }
 
-export default PaymentStatusTypePicker;
+export default PaymentStatusPicker;

@@ -53,10 +53,10 @@ class PremiumsPaymentsOverview extends Component {
         p => p.receiptNo,
         p => <PublishedComponent
             readOnly={true}
-            pubRef="payment.PaymentStatusPicker" 
+            pubRef="payment.PaymentStatusPicker"
             withLabel={false}
             value={p.status}
-            nullLabel={formatMessage(this.props.intl, "payment", "payment.status.none")}
+            nullLabel="payment.status.none"
         />,
     ];
 
