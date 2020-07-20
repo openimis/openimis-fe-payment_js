@@ -6,8 +6,8 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 import { Paper } from "@material-ui/core";
 import {
-    formatMessage, formatAmount, formatDateFromISO, withModulesManager,
-    PublishedComponent, Table
+    formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager,
+    PublishedComponent, Table, PagedDataHandler
 } from "@openimis/fe-core";
 
 import { fetchPremiumsPayments } from "../actions";
@@ -19,20 +19,27 @@ const styles = theme => ({
     fab: theme.fab,
 });
 
-class PremiumsPaymentsOverview extends Component {
+class PremiumsPaymentsOverview extends PagedDataHandler {
+
+    constructor(props) {
+        super(props);
+        this.rowsPerPageOptions = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.rowsPerPageOptions", [5, 10, 20]);
+        this.defaultPageSize = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.defaultPageSize", 5);
+    }
 
     componentDidMount() {
-        if (!!this.props.policiesPremiums && !!this.props.policiesPremiums.length) {
-            this.props.fetchPremiumsPayments(this.props.policiesPremiums.map(p => p.uuid));
-        }
+        this.onChangeRowsPerPage(this.defaultPageSize);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!prevProps.policiesPremiums && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) {
-            this.props.fetchPremiumsPayments(this.props.modulesManager, this.props.policiesPremiums.map(p => p.uuid));
+        if (!_.isEqual(prevProps.policiesPremiums, prevProps.policiesPremiums)) {
+            this.query();
         }
     }
 
+    queryPrms = () => [
+        `premiumUuids: ${JSON.stringify((this.props.policiesPremiums || []).map(p => p.uuid))}`
+    ]
 
     headers = [
         "payment.payment.typeOfPayment",
@@ -61,15 +68,23 @@ class PremiumsPaymentsOverview extends Component {
     ];
 
     render() {
-        const { intl, classes, premiumsPayments } = this.props;
+        const { intl, classes, premiumsPayments, pageInfo } = this.props;
         return (
             <Paper className={classes.paper}>
                 <Table
                     module="payment"
-                    header={formatMessage(intl, "payment", "PremiumsPayments")}
+                    header={formatMessageWithValues(intl, "payment", "PremiumsPayments", { count: pageInfo.totalCount })}
                     headers={this.headers}
                     itemFormatters={this.formatters}
                     items={premiumsPayments || []}
+                    withPagination={true}
+                    rowsPerPageOptions={this.rowsPerPageOptions}
+                    defaultPageSize={this.defaultPageSize}
+                    page={this.currentPage()}
+                    pageSize={this.currentPageSize()}
+                    count={pageInfo.totalCount}
+                    onChangePage={this.onChangePage}
+                    onChangeRowsPerPage={this.onChangeRowsPerPage}
                 />
             </Paper>
         )
@@ -81,11 +96,12 @@ const mapStateToProps = state => ({
     fetchingPremiumsPayments: state.payment.fetchingPremiumsPayment,
     fetchedPremiumsPayments: state.payment.fetchedPremiumsPayment,
     premiumsPayments: state.payment.premiumsPayments,
+    pageInfo: state.payment.premiumsPaymentsPageInfo,
     errorPremiumsPayment: state.payment.errorPremiumsPayment,
 });
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ fetchPremiumsPayments }, dispatch);
+    return bindActionCreators({ fetch: fetchPremiumsPayments }, dispatch);
 };
 
 export default withModulesManager(injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PremiumsPaymentsOverview)))));

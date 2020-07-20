@@ -6,6 +6,7 @@ function reducer(
         fetchedPremiumsPayments: false,
         errorPremiumsPayments: null,
         premiumsPayments: null,
+        premiumsPaymentsPageInfo: { totalCount: 0 },
     },
     action,
 ) {
