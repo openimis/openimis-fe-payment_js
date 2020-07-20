@@ -89,7 +89,8 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 
 
     render() {
-        const { intl, classes, premiumsPayments, pageInfo } = this.props;
+        const { intl, classes, family, premiumsPayments, pageInfo } = this.props;
+        if (!family.uuid) return null;
         return (
             <Paper className={classes.paper}>
                 <Table
@@ -113,6 +114,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 }
 
 const mapStateToProps = state => ({
+    family: state.insuree.family || {},
     premium: state.contribution.premium,
     policiesPremiums: state.contribution.policiesPremiums,
     fetchingPremiumsPayments: state.payment.fetchingPremiumsPayment,
