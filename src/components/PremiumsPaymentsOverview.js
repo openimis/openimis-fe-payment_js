@@ -28,14 +28,20 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) {
+        if ((!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
+            (!_.isEqual(prevProps.premium, this.props.premium))
+        ) {
             this.query();
         }
     }
 
-    queryPrms = () => [
-        `premiumUuids: ${JSON.stringify((this.props.policiesPremiums || []).map(p => p.uuid))}`
-    ]
+    queryPrms = () => {
+        if (!!this.props.premium) {
+            return [`premiumUuids: ${JSON.stringify([this.props.premium.uuid])}`]
+        } else {
+            return [`premiumUuids: ${JSON.stringify((this.props.policiesPremiums || []).map(p => p.uuid))}`]
+        }
+    }
 
     headers = [
         "payment.payment.typeOfPayment",
@@ -63,13 +69,32 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         />,
     ];
 
+    header = () => {
+        const { modulesManager, intl, pageInfo, premium } = this.props;
+        if (!!premium && !!premium.uuid) {
+            return formatMessageWithValues(
+                intl, "payment", "PremiumsPaymentsOfPremium",
+                {
+                    count: pageInfo.totalCount,
+                    premium: `${formatDateFromISO(modulesManager, intl, premium.payDate)}`
+                }
+            )
+        } else {
+            return formatMessageWithValues(
+                intl, "payment", "PremiumsPayments",
+                { count: pageInfo.totalCount }
+            )
+        }
+    }
+
+
     render() {
         const { intl, classes, premiumsPayments, pageInfo } = this.props;
         return (
             <Paper className={classes.paper}>
                 <Table
                     module="payment"
-                    header={formatMessageWithValues(intl, "payment", "PremiumsPayments", { count: pageInfo.totalCount })}
+                    header={this.header()}
                     headers={this.headers}
                     itemFormatters={this.formatters}
                     items={premiumsPayments || []}
@@ -88,6 +113,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 }
 
 const mapStateToProps = state => ({
+    premium: state.contribution.premium,
     policiesPremiums: state.contribution.policiesPremiums,
     fetchingPremiumsPayments: state.payment.fetchingPremiumsPayment,
     fetchedPremiumsPayments: state.payment.fetchedPremiumsPayment,

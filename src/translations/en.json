@@ -1,5 +1,6 @@
 {
     "payment.PremiumsPayments": "{count} Payments",
+    "payment.PremiumsPaymentsOfPremium": "{count} Payments of Premium {premium}",
     "payment.payment.typeOfPayment": "Type Of Payment",
     "payment.payment.requestDate": "Request Date",
     "payment.payment.expectedAmount": "Expected Amount",
