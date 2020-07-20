@@ -27,12 +27,8 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         this.defaultPageSize = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.defaultPageSize", 5);
     }
 
-    componentDidMount() {
-        this.onChangeRowsPerPage(this.defaultPageSize);
-    }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!_.isEqual(prevProps.policiesPremiums, prevProps.policiesPremiums)) {
+        if (!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) {
             this.query();
         }
     }

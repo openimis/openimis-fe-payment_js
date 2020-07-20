@@ -11,6 +11,8 @@ function reducer(
     action,
 ) {
     switch (action.type) {
+        case 'POLICY_INSUREE_POLICIES_REQ':
+        case 'POLICY_FAMILY_POLICIES_REQ':
         case 'CONTRIBUTION_POLICES_PREMIUMS_REQ':
         case 'PAYMENT_PREMIUMS_PAYMENTS_REQ':
             return {
@@ -18,6 +20,7 @@ function reducer(
                 fetchingPremiumsPayments: true,
                 fetchedPremiumsPayments: false,
                 premiumsPayments: null,
+                premiumsPaymentsPageInfo: { totalCount: 0 },
                 errorPremiumsPayments: null,
             };
         case 'PAYMENT_PREMIUMS_PAYMENTS_RESP':
@@ -26,6 +29,7 @@ function reducer(
                 fetchingPremiumsPayments: false,
                 fetchedPremiumsPayments: true,
                 premiumsPayments: parseData(action.payload.data.paymentsByPremiums),
+                premiumsPaymentsPageInfo: pageInfo(action.payload.data.paymentsByPremiums),
                 errorPremiumsPayments: formatGraphQLError(action.payload)
             };
         case 'PAYMENT_PREMIUMS_PAYMENTS_ERR':
