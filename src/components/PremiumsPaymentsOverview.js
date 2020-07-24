@@ -7,6 +7,7 @@ import _ from "lodash";
 import { Paper } from "@material-ui/core";
 import {
     formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager,
+    formatSorter, sort,
     PublishedComponent, Table, PagedDataHandler
 } from "@openimis/fe-core";
 
@@ -27,6 +28,10 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         this.defaultPageSize = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.defaultPageSize", 5);
     }
 
+    componentDidMount() {
+        this.setState({ orderBy: "-requestDate" }, e => this.query())
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if ((!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
             (!_.isEqual(prevProps.premium, this.props.premium))
@@ -36,11 +41,13 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
     }
 
     queryPrms = () => {
+        let prms = [`orderBy: "${this.state.orderBy}"`];
         if (!!this.props.premium) {
-            return [`premiumUuids: ${JSON.stringify([this.props.premium.uuid])}`]
+            prms.push(`premiumUuids: ${JSON.stringify([this.props.premium.uuid])}`);
         } else {
-            return [`premiumUuids: ${JSON.stringify((this.props.policiesPremiums || []).map(p => p.uuid))}`]
+            prms.push(`premiumUuids: ${JSON.stringify((this.props.policiesPremiums || []).map(p => p.uuid))}`);
         }
+        return prms;
     }
 
     headers = [
@@ -51,6 +58,21 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         "payment.payment.receivedAmount",
         "payment.payment.receiptNo",
         "payment.payment.status",
+    ];
+
+    sorter = (attr, asc = true) => [
+        () => this.setState((state, props) => ({ orderBy: sort(state.orderBy, attr, asc) }), e => this.query()),
+        () => formatSorter(this.state.orderBy, attr, asc)
+    ]
+
+    headerActions = [
+        this.sorter("typeOfPayment"),
+        this.sorter("requestDate"),
+        this.sorter("expectedAmount"),
+        this.sorter("receivedDate"),
+        this.sorter("receivedAmount"),
+        this.sorter("receiptNo"),
+        this.sorter("status"),
     ];
 
     formatters = [
@@ -96,6 +118,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                 <Table
                     module="payment"
                     header={this.header()}
+                    headerActions={this.headerActions}
                     headers={this.headers}
                     itemFormatters={this.formatters}
                     items={premiumsPayments || []}
