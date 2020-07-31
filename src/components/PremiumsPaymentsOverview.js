@@ -32,10 +32,12 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         this.setState({ orderBy: "-requestDate" }, e => this.query())
     }
 
+    premiumsChanged = (prevProps) =>
+        (!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
+        (!_.isEqual(prevProps.premium, this.props.premium))
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if ((!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
-            (!_.isEqual(prevProps.premium, this.props.premium))
-        ) {
+        if (this.premiumsChanged(prevProps)) {
             this.query();
         }
     }
@@ -44,10 +46,12 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         let prms = [`orderBy: "${this.state.orderBy}"`];
         if (!!this.props.premium) {
             prms.push(`premiumUuids: ${JSON.stringify([this.props.premium.uuid])}`);
-        } else {
+            return prms;
+        } else if (this.props.policiesPremiums && !!this.props.policiesPremiums.length) {
             prms.push(`premiumUuids: ${JSON.stringify((this.props.policiesPremiums || []).map(p => p.uuid))}`);
+            return prms;
         }
-        return prms;
+        return null;
     }
 
     headers = [

@@ -11,6 +11,15 @@ function reducer(
     action,
 ) {
     switch (action.type) {
+        case 'INSUREE_FAMILY_OVERVIEW_REQ':
+            return {
+                ...state,
+                fetchingPremiumsPayments: false,
+                fetchedPremiumsPayments: false,
+                premiumsPayments: null,
+                premiumsPaymentsPageInfo: { totalCount: 0 },
+                errorPremiumsPayments: null,
+            }
         case 'POLICY_INSUREE_POLICIES_REQ':
         case 'POLICY_FAMILY_POLICIES_REQ':
         case 'CONTRIBUTION_POLICES_PREMIUMS_REQ':
