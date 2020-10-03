@@ -4,9 +4,14 @@ import { bindActionCreators } from "redux";
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import _ from "lodash";
-import { Paper } from "@material-ui/core";
+import { Paper, Grid, Divider, Typography, IconButton } from "@material-ui/core";
 import {
-    formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager,
+    Add as AddIcon,
+    Delete as DeleteIcon,
+} from '@material-ui/icons';
+
+import {
+    formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager, formatMessage, withTooltip,
     formatSorter, sort,
     PublishedComponent, Table, PagedDataHandler
 } from "@openimis/fe-core";
@@ -17,6 +22,7 @@ const styles = theme => ({
     paper: theme.paper.paper,
     paperHeader: theme.paper.header,
     paperHeaderAction: theme.paper.action,
+    tableTitle: theme.table.title,
     fab: theme.fab,
 });
 
@@ -31,6 +37,14 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
     componentDidMount() {
         this.setState({ orderBy: "-requestDate" }, e => this.query())
     }
+
+    addNewPayment = () => alert("Will be implemented along Payment module migration!")
+    deletePayment = () => alert("Will be implemented along Payment module migration!")
+
+    onDoubleClick = (i, newTab = false) => {
+        alert("Will be implemented along Payment module migration!")
+    }
+
 
     premiumsChanged = (prevProps) =>
         (!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
@@ -62,6 +76,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         "payment.payment.receivedAmount",
         "payment.payment.receiptNo",
         "payment.payment.status",
+        "",
     ];
 
     sorter = (attr, asc = true) => [
@@ -93,6 +108,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
             value={p.status}
             nullLabel="payment.status.none"
         />,
+        p => withTooltip(<IconButton onClick={this.deletePayment}><DeleteIcon /></IconButton>, formatMessage(this.props.intl, "payment", "deletePayment.tooltip"))
     ];
 
     header = () => {
@@ -115,18 +131,45 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 
 
     render() {
-        const { intl, classes, family, premiumsPayments, pageInfo } = this.props;
+        const { intl, classes, family, premiumsPayments, pageInfo, reset, readOnly } = this.props;
         if (!family.uuid) return null;
+
+        let actions = !!readOnly ? [] : [
+            {
+                button: <IconButton onClick={this.addNewPayment}><AddIcon /></IconButton>,
+                tooltip: formatMessage(intl, "payment", "addNewPayment.tooltip")
+            }
+        ];
+
         return (
             <Paper className={classes.paper}>
+                <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
+                    <Grid item xs={8}>
+                        <Typography className={classes.tableTitle}>
+                            {this.header()}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Grid container direction="row" justify="flex-end">
+                            {actions.map((a, idx) => {
+                                return (
+                                    <Grid item key={`form-action-${idx}`} className={classes.paperHeaderAction}>
+                                        {withTooltip(a.button, a.tooltip)}
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Divider />
                 <Table
                     module="payment"
-                    header={this.header()}
                     headerActions={this.headerActions}
                     headers={this.headers}
                     itemFormatters={this.formatters}
                     items={premiumsPayments || []}
                     withPagination={true}
+                    onDoubleClick={this.onDoubleClick}
                     rowsPerPageOptions={this.rowsPerPageOptions}
                     defaultPageSize={this.defaultPageSize}
                     page={this.currentPage()}

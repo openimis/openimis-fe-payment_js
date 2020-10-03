@@ -17,5 +17,6 @@
     "payment.payment.status.2": "Posted",
     "payment.payment.status.3": "Assigned",
     "payment.payment.status.4": "Unmatched",
-    "payment.payment.status.5": "Matched"
+    "payment.payment.status.5": "Matched",
+    "payment.addNewPayment.tooltip": "Add new payment"
 }
