@@ -7,6 +7,11 @@ function reducer(
         errorPremiumsPayments: null,
         premiumsPayments: null,
         premiumsPaymentsPageInfo: { totalCount: 0 },
+        payments: [],
+        paymentsPageInfo: { totalCount: 0 },
+        fetchingPayments: false,
+        fetchedPayment: false,
+        errorPayments: null,
     },
     action,
 ) {
@@ -46,6 +51,31 @@ function reducer(
                 ...state,
                 fetchingPremiumsPayments: false,
                 errorPremiumsPayments: formatServerError(action.payload)
+            };
+
+        case 'PAYMENT_PAYMENTS_REQ':
+            return {
+                ...state,
+                fetchingPayments: true,
+                fetchedPayment: false,
+                payments: null,
+                paymentsPageInfo: { totalCount: 0 },
+                errorPayments: null,
+            };
+        case 'PAYMENT_PAYMENTS_ERR':
+            return {
+                ...state,
+                fetchingPayments: false,
+                errorPayments: formatServerError(action.payload)
+            };
+        case 'PAYMENT_PAYMENTS_RESP':
+            return {
+                ...state,
+                fetchingPayments: false,
+                fetchedPayment: true,
+                payments: parseData(action.payload.data.payments),
+                paymentsPageInfo: pageInfo(action.payload.data.payments),
+                errorPayments: formatGraphQLError(action.payload)
             };
         default:
             return state;

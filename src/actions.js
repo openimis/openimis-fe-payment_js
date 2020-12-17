@@ -5,10 +5,21 @@ import {
 import _ from "lodash";
 import _uuid from "lodash-uuid";
 
+const PAYMENT_SUMMARIES_PROJECTION = ["id", "requestDate", "expectedAmount", "receivedDate", "receivedAmount", "status", "receiptNo", "typeOfPayment"];
+
 export function fetchPremiumsPayments(mm, filters) {
     let payload = formatPageQueryWithCount("paymentsByPremiums",
         filters,
-        ["id", "requestDate", "expectedAmount", "receivedDate", "receivedAmount", "status", "receiptNo", "typeOfPayment"]
+        PAYMENT_SUMMARIES_PROJECTION
     );
     return graphql(payload, 'PAYMENT_PREMIUMS_PAYMENTS');
 }
+
+export function fetchPaymentsSummaries(mm, filters) {
+    const payload = formatPageQueryWithCount("payments",
+      filters,
+      PAYMENT_SUMMARIES_PROJECTION
+    );
+    return graphql(payload, 'PAYMENT_PAYMENTS');
+  }
+  

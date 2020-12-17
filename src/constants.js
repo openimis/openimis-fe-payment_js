@@ -1,4 +1,4 @@
-export const RIGHT_PAYMENT = 101400
+export const RIGHT_PAYMENT = 101401
 export const RIGHT_PAYMENT_SEARCH = 101401
 export const RIGHT_PAYMENT_ADD = 101402
 export const RIGHT_PAYMENT_EDIT = 101403
