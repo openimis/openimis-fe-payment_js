@@ -12,6 +12,9 @@ function reducer(
         fetchingPayments: false,
         fetchedPayment: false,
         errorPayments: null,
+        payment: null,
+        fetchingPayment: false,
+        errorPayment: null,
     },
     action,
 ) {
@@ -76,6 +79,29 @@ function reducer(
                 payments: parseData(action.payload.data.payments),
                 paymentsPageInfo: pageInfo(action.payload.data.payments),
                 errorPayments: formatGraphQLError(action.payload)
+            };
+        case 'PAYMENT_OVERVIEW_REQ':
+            return {
+                ...state,
+                fetchingPayment: true,
+                fetchedPayment: false,
+                payment: null,
+                errorPayment: null,
+            };
+        case 'PAYMENT_OVERVIEW_RESP':
+            var payments = parseData(action.payload.data.payments);
+            return {
+                ...state,
+                fetchingPayment: false,
+                fetchedPayment: true,
+                payment: (!!payments && payments.length > 0) ? payments[0] : null,
+                errorPayment: formatGraphQLError(action.payload)
+            };
+        case 'PAYMENT_OVERVIEW_ERR':
+            return {
+                ...state,
+                fetchingPayment: false,
+                errorPayment: formatServerError(action.payload)
             };
         default:
             return state;

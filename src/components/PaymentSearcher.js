@@ -68,10 +68,10 @@ class PaymentSearcher extends Component {
     headers = (filters) => {
         var h = [
             "payment.payment.receivedDate",
-            "payment.payment.typeOfPayment",
             "payment.payment.requestDate",
             "payment.payment.expectedAmount",
             "payment.payment.receivedAmount",
+            "payment.payment.typeOfPayment",
             "payment.payment.receiptNo",
             "payment.payment.status",
         ]
@@ -81,10 +81,10 @@ class PaymentSearcher extends Component {
     sorts = (filters) => {
         var results = [
             ['receivedDate', true],
-            ['typeOfPayment', true],
             ['requestDate', true],
             ['expectedAmount', true],
             ['receivedAmount', true],
+            ['typeOfPayment', true],
             ['receiptNo', true],
             ['status', true],
             "contribution.openNewTabHead"
@@ -107,11 +107,14 @@ class PaymentSearcher extends Component {
 
     itemFormatters = () => {
         return [
-            p => p.typeOfPayment,
+            p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.receivedDate),
             p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.requestDate),
             p => formatAmount(this.props.intl, p.expectedAmount),
-            p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.receivedDate),
             p => formatAmount(this.props.intl, p.receivedAmount),
+            p => <PublishedComponent
+                readOnly={true}
+                pubRef="contribution.PremiumPaymentTypePicker" withLabel={false} value={p.typeOfPayment}
+            />,
             p => p.receiptNo,
             p => <PublishedComponent
                 readOnly={true}
@@ -122,7 +125,7 @@ class PaymentSearcher extends Component {
             />,
             p => (
                 <Tooltip title={formatMessage(this.props.intl, "payment", "contribution.openNewTab")}>
-                    <IconButton onClick={e => this.props.onDoubleClick(c, true)}payment> <TabIcon /></IconButton >
+                    <IconButton onClick={e => this.props.onDoubleClick(p, true)}> <TabIcon /></IconButton >
                 </Tooltip>
             )
             // p => withTooltip(<IconButton onClick={this.deletePremium}><DeleteIcon /></IconButton>, formatMessage(this.props.intl, "payment", "deletePremium.tooltip"))

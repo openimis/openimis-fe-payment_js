@@ -17,12 +17,12 @@ const styles = theme => ({
 
 class PaymentsPage extends Component {
 
-    onDoubleClick = (c, newTab = false) => {
-        historyPush(this.props.modulesManager, this.props.history, "contribution.paymentOverview", [c.uuid], newTab)
+    onDoubleClick = (p, newTab = false) => {
+        historyPush(this.props.modulesManager, this.props.history, "payment.paymentOverview", [p.uuid], newTab)
     }
 
     onAdd = () => {
-        historyPush(this.props.modulesManager, this.props.history, "contribution.payment");
+        historyPush(this.props.modulesManager, this.props.history, "payment.payment");
     }
 
     render() {
