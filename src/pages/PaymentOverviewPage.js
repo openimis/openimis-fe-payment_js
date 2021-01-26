@@ -9,7 +9,7 @@ class PaymentOverviewPage extends Component {
     render() {
         const { history, modulesManager, payment_uuid } = this.props;
         var actions = [{
-            doIt: e => historyPush(modulesManager, history, "insuree.route.family", [payment_uuid]),
+            doIt: e => historyPush(modulesManager, history, "payment.payment", [payment_uuid]),
             icon: <EditIcon />,
             onlyIfDirty: false
         }]
@@ -18,7 +18,7 @@ class PaymentOverviewPage extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-    payment_uuid: props.match.params.contribution_uuid,
+    payment_uuid: props.match.params.payment_uuid,
 })
 
 export default withHistory(withModulesManager(connect(mapStateToProps)(PaymentOverviewPage)));

@@ -7,7 +7,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { historyPush, withModulesManager, withHistory, withTooltip, formatMessage } from "@openimis/fe-core"
 import PaymentSearcher from "../components/PaymentSearcher";
 
-// import { RIGHT_CONTRIBUTION_ADD } from "../constants";
+import { RIGHT_PAYMENT_ADD } from "../constants";
 
 const styles = theme => ({
     page: theme.page,
@@ -33,16 +33,16 @@ class PaymentsPage extends Component {
                     cacheFiltersKey="paymentsPageFiltersCache"
                     onDoubleClick={this.onDoubleClick}
                 />
-                {/* {rights.includes(RIGHT_CONTRIBUTION_ADD) &&
+                {rights.includes(RIGHT_PAYMENT_ADD) &&
                     withTooltip(
                         <div className={classes.fab}>
                             <Fab color="primary" onClick={this.onAdd}>
                                 <AddIcon />
                             </Fab>
                         </div>,
-                        formatMessage(intl, "contribution", "addNewContributionTooltip")
+                        formatMessage(intl, "payment", "addNewPaymentTooltip")
                     )
-                } */}
+                }
             </div>
         )
     }

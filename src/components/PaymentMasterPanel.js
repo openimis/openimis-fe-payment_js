@@ -4,10 +4,13 @@ import { injectIntl } from 'react-intl';
 import {
     Grid,
 } from "@material-ui/core";
-import { People as PeopleIcon } from '@material-ui/icons';
 import {
-    historyPush, withHistory, withModulesManager, AmountInput,
-    TextInput, formatMessage, PublishedComponent, FormattedMessage, FormPanel
+    withHistory,
+    withModulesManager,
+    AmountInput,
+    TextInput,
+    PublishedComponent,
+    FormPanel
 } from "@openimis/fe-core";
 
 
@@ -25,10 +28,9 @@ class PaymentMasterPanel extends FormPanel {
             intl,
             classes,
             edited,
-            // readOnly,
+            readOnly,
             overview,
         } = this.props;
-        const readOnly = true;
         return (
             <Fragment>
                 <Grid container className={classes.item}>

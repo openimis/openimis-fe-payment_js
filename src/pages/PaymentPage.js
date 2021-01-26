@@ -17,27 +17,27 @@ const styles = theme => ({
 class PaymentPage extends Component {
 
     add = () => {
-        historyPush(this.props.modulesManager, this.props.history, "insuree.route.family")
+        historyPush(this.props.modulesManager, this.props.history, "payment.payment")
     }
 
-    save = (family) => {
-        if (!family.uuid) {
+    save = (payment) => {
+        if (!payment.uuid) {
             this.props.createPayment(
                 this.props.modulesManager,
-                family,
+                payment,
                 formatMessageWithValues(
                     this.props.intl,
-                    "contribution",
+                    "payment",
                     "CreatePayment.mutationLabel",
                 )
             );
         } else {
             this.props.updatePayment(
                 this.props.modulesManager,
-                family,
+                payment,
                 formatMessageWithValues(
                     this.props.intl,
-                    "contribution",
+                    "payment",
                     "UpdatePayment.mutationLabel",
                 )
             );

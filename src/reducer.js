@@ -1,4 +1,12 @@
-import { parseData, pageInfo, formatServerError, formatGraphQLError } from '@openimis/fe-core';
+import {
+    parseData,
+    pageInfo,
+    formatServerError,
+    formatGraphQLError,
+    dispatchMutationResp,
+    dispatchMutationErr,
+    dispatchMutationReq,
+} from '@openimis/fe-core';
 
 function reducer(
     state = {
@@ -15,6 +23,8 @@ function reducer(
         payment: null,
         fetchingPayment: false,
         errorPayment: null,
+        submittingMutation: false,
+        mutation: {},
     },
     action,
 ) {
@@ -103,6 +113,22 @@ function reducer(
                 fetchingPayment: false,
                 errorPayment: formatServerError(action.payload)
             };
+        case 'PAYMENT_NEW':
+            return {
+                ...state,
+                paymentsPageInfo : { totalCount: 0 },
+                payment: null,
+            };
+        case 'PAYMENT_MUTATION_REQ':
+            return dispatchMutationReq(state, action)
+        case 'PAYMENT_MUTATION_ERR':
+                return dispatchMutationErr(state, action);
+        case 'PAYMENT_UPDATE_RESP':
+            return dispatchMutationResp(state, "updatePayment", action);
+        case 'PAYMENT_DELETE_RESP':
+            return dispatchMutationResp(state, "deletePayment", action);
+        case 'PAYMENT_CREATE_RESP':
+            return dispatchMutationResp(state, "createPayment", action);
         default:
             return state;
     }

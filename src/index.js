@@ -7,12 +7,14 @@ import PremiumsPaymentsOverview from "./components/PremiumsPaymentsOverview";
 import PaymentOverviewPage from "./pages/PaymentOverviewPage";
 import PaymentStatusPicker from "./pickers/PaymentStatusPicker";
 import PaymentsPage from "./pages/PaymentsPage";
+import PaymentPage from "./pages/PaymentPage";
 import reducer from "./reducer";
 
 import { RIGHT_PAYMENT } from "./constants";
 
 
 const ROUTE_PAYMENTS = "payment/payments";
+const ROUTE_PAYMENTS_PAYMENT = "payment/payment";
 const ROUTE_PAYMENTS_PAYMENT_OVERVIEW = "payment/paymentOverview";
 
 const DEFAULT_CONFIG = {
@@ -22,10 +24,12 @@ const DEFAULT_CONFIG = {
   "refs": [
     { key: "payment.PaymentStatusPicker", ref: PaymentStatusPicker },
     { key: "payment.payments", ref: ROUTE_PAYMENTS },
+    { key: "payment.payment", ref: ROUTE_PAYMENTS_PAYMENT },
     { key: "payment.paymentOverview", ref: ROUTE_PAYMENTS_PAYMENT_OVERVIEW },
   ],
   "core.Router": [
     { path: ROUTE_PAYMENTS, component: PaymentsPage },
+    { path: ROUTE_PAYMENTS_PAYMENT, component: PaymentPage },
     { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", component: PaymentOverviewPage },
   ],
   "insuree.FamilyOverview.panels": [PremiumsPaymentsOverview],

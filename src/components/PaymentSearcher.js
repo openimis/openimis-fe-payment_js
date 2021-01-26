@@ -5,16 +5,19 @@ import { connect } from "react-redux";
 import { injectIntl } from 'react-intl';
 import {  IconButton, Tooltip } from "@material-ui/core";
 import TabIcon from "@material-ui/icons/Tab";
+import {
+    Delete as DeleteIcon,
+} from '@material-ui/icons';
 
 import PaymentFilter from './PaymentFilter';
 import {
     withModulesManager, formatMessageWithValues, formatDateFromISO, formatMessage,
-    Searcher, PublishedComponent, formatAmount, withTooltip,
+    Searcher, PublishedComponent, formatAmount, journalize,
 } from "@openimis/fe-core";
 
-import { fetchPaymentsSummaries } from "../actions";
-import { RIGHT_CONTRIBUTION_DELETE } from "../constants";
-// import DeleteFamilyDialog from "./DeleteFamilyDialog";
+import { fetchPaymentsSummaries, deletePayment } from "../actions";
+import { RIGHT_PAYMENT_DELETE } from "../constants";
+import DeletePaymentDialog from "./DeletePaymentDialog";
 
 const PAYMENT_SEARCHER_CONTRIBUTION_KEY = "payment.PaymentSearcher";
 
@@ -92,21 +95,30 @@ class PaymentSearcher extends Component {
         return results;
     }
 
-    // deletePayment = (deleteMembers) => {
-    //     let family = this.state.deletePayment;
-    //     this.setState(
-    //         { deletePayment: null },
-    //         (e) => {
-    //             this.props.deletePayment(
-    //                 this.props.modulesManager,
-    //                 family,
-    //                 deleteMembers,
-    //                 formatMessageWithValues(this.props.intl, "insuree", "deletePayment.mutationLabel", { label: familyLabel(family) }))
-    //         })
-    // }
+    deletePayment = () => {
+        let payment = this.state.deletePayment;
+        this.setState(
+            { deletePayment: null },
+            (e) => {
+                this.props.deletePayment(
+                    this.props.modulesManager,
+                    payment,
+                    formatMessageWithValues(this.props.intl, "payment", "deletePaymentDialog.title"))
+            })
+    }
+
+    confirmDelete = deletePayment => {
+        this.setState({ deletePayment,})
+    }
+
+    deletePaymentAction = (i) =>
+        !!i.validityTo || !!i.clientMutationId ? null :
+            <Tooltip title={formatMessage(this.props.intl, "payment", "deletePayment.tooltip")}>
+                <IconButton onClick={() => this.confirmDelete(i)}><DeleteIcon /></IconButton>
+            </Tooltip>
 
     itemFormatters = () => {
-        return [
+        const formatters = [
             p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.receivedDate),
             p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.requestDate),
             p => formatAmount(this.props.intl, p.expectedAmount),
@@ -128,8 +140,11 @@ class PaymentSearcher extends Component {
                     <IconButton onClick={e => this.props.onDoubleClick(p, true)}> <TabIcon /></IconButton >
                 </Tooltip>
             )
-            // p => withTooltip(<IconButton onClick={this.deletePremium}><DeleteIcon /></IconButton>, formatMessage(this.props.intl, "payment", "deletePremium.tooltip"))
         ];
+        if (!!this.props.rights.includes(RIGHT_PAYMENT_DELETE)) {
+            formatters.push(this.deletePaymentAction)
+        }
+        return formatters;
     }
 
     rowDisabled = (selection, i) => !!i.validityTo
@@ -143,10 +158,10 @@ class PaymentSearcher extends Component {
         let count = paymentsPageInfo.totalCount;
         return (
             <Fragment>
-                {/* <DeleteFamilyDialog
-                    family={this.state.deletePayment}
+                <DeletePaymentDialog
+                    payment={this.state.deletePayment}
                     onConfirm={this.deletePayment}
-                    onCancel={e => this.setState({ deletePayment: null })} /> */}
+                    onCancel={e => this.setState({ deletePayment: null })} />
                 <Searcher
                     module="payment"
                     cacheFiltersKey={cacheFiltersKey}
@@ -192,7 +207,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
-        { fetchPaymentsSummaries },
+        { fetchPaymentsSummaries, deletePayment, journalize },
         dispatch);
 };
 
