@@ -1,9 +1,8 @@
 {
+    "payment.addNewPayment.tooltip": "Add new payment",
     "payment.addNewPaymentTooltip": "Add new payment",
     "payment.CreatePayment.mutationLabel": "Create payment",
-    "payment.UpdatePayment.mutationLabel": "Update payment",
     "payment.deletePayment.tooltip": "Delete payment",
-    "payment.addNewPayment.tooltip": "Add new payment",
     "payment.deletePaymentDialog.message": "Are you sure you want to delete this payment?",
     "payment.deletePaymentDialog.title": "Delete payment",
     "payment.deletePaymentDialog.yes.button": "Yes",
@@ -15,6 +14,7 @@
     "payment.payment.dateLastSms": "Date last SMS",
     "payment.payment.expectedAmount": "Expected Amount",
     "payment.payment.matchedDate": "Matched date",
+    "payment.payment.officer": "Officer",
     "payment.payment.officerCode": "Officer code",
     "payment.payment.origin": "Origin",
     "payment.payment.receiptNo": "Receipt No",
@@ -41,12 +41,13 @@
     "payment.payment.typeOfPayment": "Type Of Payment",
     "payment.PaymentFilter.status": "Status",
     "payment.PaymentFilter.typeOfPayment": "Payment Type",
-    "payment.PaymentOverview.title": "Payment Details",
     "payment.PaymentOverview.newTitle": "New payment",
+    "payment.PaymentOverview.title": "Payment Details",
     "payment.paymentSummaries": "{count} payment(s) found",
     "payment.PremiumsPayments": "{count} Matched Payments",
     "payment.PremiumsPaymentsOfPremium": "{count} Matched Payments of Premium {premium}",
     "payment.receivedAmount_Gte": "Received amount above",
     "payment.receivedAmount_Lte": "Received amount under",
-    "payment.showHistory": "Show historical values"
+    "payment.showHistory": "Show historical values",
+    "payment.UpdatePayment.mutationLabel": "Update payment"
 }

@@ -10,7 +10,8 @@ import {
     AmountInput,
     TextInput,
     PublishedComponent,
-    FormPanel
+    FormPanel,
+    formatMessage,
 } from "@openimis/fe-core";
 
 
@@ -127,15 +128,6 @@ class PaymentMasterPanel extends FormPanel {
                     <Grid item xs={3} className={classes.item}>
                         <TextInput
                             module="payment"
-                            label="payment.officerCode"
-                            readOnly={readOnly}
-                            value={!edited ? "" : edited.officerCode}
-                            onChange={p => this.updateAttribute('officerCode', p)}
-                        />
-                    </Grid>
-                    <Grid item xs={3} className={classes.item}>
-                        <TextInput
-                            module="payment"
                             label="payment.origin"
                             readOnly={readOnly}
                             value={!edited ? "" : edited.origin}
@@ -145,12 +137,32 @@ class PaymentMasterPanel extends FormPanel {
                     <Grid item xs={3} className={classes.item}>
                         <TextInput
                             module="payment"
+                            label="payment.officerCode"
+                            readOnly={readOnly}
+                            value={!edited ? "" : edited.officerCode}
+                            onChange={p => this.updateAttribute('officerCode', p)}
+                        />
+                    </Grid>
+                    {/*  TO-DO: InsureeOfficerPicker is using officer ID and we only have the code */}
+                    {/* <Grid item xs={3} className={classes.item} >
+                        <PublishedComponent pubRef="insuree.InsureeOfficerPicker"
+                            value={!edited ? "" : edited.officerCode}
+                            module="payment"
+                            label={formatMessage(intl, "payment", "payment.officer")}
+                            readOnly={readOnly}
+                            onChange={v => this.updateAttribute('officerCode', v ? v.code : null)}
+                        />
+                    </Grid> */}
+                    {/*  TO-DO: rejectedReason is set to null in the back if updated */}
+                    {/* <Grid item xs={3} className={classes.item}>
+                        <TextInput
+                            module="payment"
                             label="payment.rejectedReason"
                             readOnly={readOnly}
                             value={!edited ? "" : edited.rejectedReason}
                             onChange={p => this.updateAttribute('rejectedReason', p)}
                         />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Fragment>
         );

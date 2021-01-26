@@ -67,7 +67,7 @@ export function formatPaymentGQL(mm, payment) {
     ${!!payment.expectedAmount ? `expectedAmount: "${payment.expectedAmount}"` : ""}
     ${!!payment.receivedAmount ? `receivedAmount: "${payment.receivedAmount}"` : ""}
     ${!!payment.transferFee ? `transferFee: "${payment.transferFee}"` : ""}
-    ${!!payment.status ? `status: "${payment.status}"` : ""}
+    ${!!payment.status ? `status: ${payment.status}` : ""}
     ${!!payment.receiptNo ? `receiptNo: "${formatGQLString(payment.receiptNo)}"` : ""}
     ${!!payment.typeOfPayment ? `typeOfPayment: "${payment.typeOfPayment}"` : ""}
     ${!!payment.officerCode ? `officerCode: "${formatGQLString(payment.officerCode)}"` : ""}
@@ -122,7 +122,7 @@ export function deletePayment(mm, payment, clientMutationLabel) {
   )
 }
 
-export function fetchPayment(mm, paymentUuid) {
+export function fetchPayment(mm, paymentUuid, clientMutationId) {
     let filters = []
     if (!!paymentUuid) {
       filters.push(`uuid: "${paymentUuid}"`)
