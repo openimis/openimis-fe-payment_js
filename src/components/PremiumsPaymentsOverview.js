@@ -16,7 +16,8 @@ import {
     PublishedComponent, Table, PagedDataHandler
 } from "@openimis/fe-core";
 
-import { fetchPremiumsPayments } from "../actions";
+import { fetchPremiumsPayments, deletePayment } from "../actions";
+import DeletePaymentDialog from "./DeletePaymentDialog";
 
 const styles = theme => ({
     paper: theme.paper.paper,
@@ -30,6 +31,9 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 
     constructor(props) {
         super(props);
+        this.state = {
+            deletePayment: null,
+        }
         this.rowsPerPageOptions = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.rowsPerPageOptions", [5, 10, 20]);
         this.defaultPageSize = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.defaultPageSize", 5);
     }
@@ -38,11 +42,29 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         this.setState({ orderBy: "-requestDate" }, e => this.query())
     }
 
-    addNewPayment = () => alert("Will be implemented along Payment module migration!")
-    deletePayment = () => alert("Will be implemented along Payment module migration!")
+    addNewPayment = () =>  {
+        const {
+            premium,
+            modulesManager,
+            history,
+        } = this.props;
+        historyPush(modulesManager, history, "payment.paymentNew", [premium.uuid]);
+    }
+
+    deletePayment = () => {
+        let payment = this.state.deletePayment;
+        this.setState(
+            { deletePayment: null },
+            (e) => {
+                this.props.deletePayment(
+                    this.props.modulesManager,
+                    payment,
+                    formatMessage(this.props.intl, "payment", "deletePaymentDialog.title"))
+            })
+    }
 
     onDoubleClick = (i, newTab = false) => {
-        alert("Will be implemented along Payment module migration!")
+        historyPush(modulesManager, history, "payment.paymentOverview", [i.uuid], newTab);
     }
 
 
@@ -94,6 +116,10 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         this.sorter("status"),
     ];
 
+    confirmDelete = deletePayment => {
+        this.setState({ deletePayment,})
+    }
+
     formatters = [
         p => p.typeOfPayment,
         p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.requestDate),
@@ -108,7 +134,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
             value={p.status}
             nullLabel="payment.status.none"
         />,
-        p => withTooltip(<IconButton onClick={this.deletePayment}><DeleteIcon /></IconButton>, formatMessage(this.props.intl, "payment", "deletePayment.tooltip"))
+        p => withTooltip(<IconButton onClick={this.confirmDelete}><DeleteIcon /></IconButton>, formatMessage(this.props.intl, "payment", "deletePayment.tooltip"))
     ];
 
     header = () => {
@@ -131,10 +157,19 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 
 
     render() {
-        const { intl, classes, family, premiumsPayments, pageInfo, reset, readOnly } = this.props;
+        const {
+            intl,
+            classes,
+            family,
+            premiumsPayments,
+            pageInfo,
+            reset,
+            premium,
+            readOnly,
+        } = this.props;
         if (!family.uuid) return null;
 
-        let actions = !!readOnly ? [] : [
+        let actions = !!readOnly || !premium? [] : [
             {
                 button: <IconButton onClick={this.addNewPayment}><AddIcon /></IconButton>,
                 tooltip: formatMessage(intl, "payment", "addNewPayment.tooltip")
@@ -142,43 +177,49 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         ];
 
         return (
-            <Paper className={classes.paper}>
-                <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
-                    <Grid item xs={8}>
-                        <Typography className={classes.tableTitle}>
-                            {this.header()}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Grid container direction="row" justify="flex-end">
-                            {actions.map((a, idx) => {
-                                return (
-                                    <Grid item key={`form-action-${idx}`} className={classes.paperHeaderAction}>
-                                        {withTooltip(a.button, a.tooltip)}
-                                    </Grid>
-                                )
-                            })}
+            <>
+                <DeletePaymentDialog
+                        contribution={this.state.deletePayment}
+                        onConfirm={this.deletePayment}
+                        onCancel={e => this.setState({ deletePayment: null })} />
+                <Paper className={classes.paper}>
+                    <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
+                        <Grid item xs={8}>
+                            <Typography className={classes.tableTitle}>
+                                {this.header()}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Grid container direction="row" justify="flex-end">
+                                {actions.map((a, idx) => {
+                                    return (
+                                        <Grid item key={`form-action-${idx}`} className={classes.paperHeaderAction}>
+                                            {withTooltip(a.button, a.tooltip)}
+                                        </Grid>
+                                    )
+                                })}
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Divider />
-                <Table
-                    module="payment"
-                    headerActions={this.headerActions}
-                    headers={this.headers}
-                    itemFormatters={this.formatters}
-                    items={premiumsPayments || []}
-                    withPagination={true}
-                    onDoubleClick={this.onDoubleClick}
-                    rowsPerPageOptions={this.rowsPerPageOptions}
-                    defaultPageSize={this.defaultPageSize}
-                    page={this.currentPage()}
-                    pageSize={this.currentPageSize()}
-                    count={pageInfo.totalCount}
-                    onChangePage={this.onChangePage}
-                    onChangeRowsPerPage={this.onChangeRowsPerPage}
-                />
-            </Paper>
+                    <Divider />
+                    <Table
+                        module="payment"
+                        headerActions={this.headerActions}
+                        headers={this.headers}
+                        itemFormatters={this.formatters}
+                        items={premiumsPayments || []}
+                        withPagination={true}
+                        onDoubleClick={this.onDoubleClick}
+                        rowsPerPageOptions={this.rowsPerPageOptions}
+                        defaultPageSize={this.defaultPageSize}
+                        page={this.currentPage()}
+                        pageSize={this.currentPageSize()}
+                        count={pageInfo.totalCount}
+                        onChangePage={this.onChangePage}
+                        onChangeRowsPerPage={this.onChangeRowsPerPage}
+                    />
+                </Paper>
+            </>
         )
     }
 }
@@ -195,7 +236,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ fetch: fetchPremiumsPayments }, dispatch);
+    return bindActionCreators({ fetch: fetchPremiumsPayments, deletePayment }, dispatch);
 };
 
 export default withModulesManager(injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PremiumsPaymentsOverview)))));

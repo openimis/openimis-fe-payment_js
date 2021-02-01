@@ -31,9 +31,7 @@ class PaymentForm extends Component {
     }
 
     _newPayment() {
-        return {
-            jsonExt: {},
-        };
+        return {};
     }
 
     componentDidMount() {
@@ -52,12 +50,19 @@ class PaymentForm extends Component {
                 )
             )
         }
+        if (this.props.premium_uuid) {
+            this.setState({
+                payment: {
+                    ... this._newPayment(),
+                    premium_uuid: this.props.premium_uuid,
+                },
+            });
+        }
     }
 
     componentDidUpdate(prevProps) {
         if (!prevProps.fetchedPayment && !!this.props.fetchedPayment) {
             const { payment } = this.props;
-            payment.ext = !!payment.jsonExt ? JSON.parse(payment.jsonExt) : {};
             this.setState(
             {
                 payment,
@@ -82,19 +87,19 @@ class PaymentForm extends Component {
         }
     }
 
-    _add = () => {
-        this.setState((state) => ({
-            payment: this._newPayment(),
-            newPayment: true,
-            lockNew: false,
-            reset: state.reset + 1,
-        }),
-            e => {
-                this.props.add();
-                this.forceUpdate();
-            }
-        )
-    }
+    // _add = () => {
+    //     this.setState((state) => ({
+    //         payment: this._newPayment(),
+    //         newPayment: true,
+    //         lockNew: false,
+    //         reset: state.reset + 1,
+    //     }),
+    //         e => {
+    //             this.props.add();
+    //             this.forceUpdate();
+    //         }
+    //     )
+    // }
 
     reload = () => {
         const { payment } = this.state;
@@ -166,7 +171,7 @@ class PaymentForm extends Component {
                         edited={payment}
                         reset={reset}
                         back={back}
-                        add={!!add && !newPayment ? this._add : null}
+                        // add={!!add && !newPayment ? this._add : null}
                         readOnly={readOnly || runningMutation || !!payment && !!payment.validityTo}
                         actions={actions}
                         overview={overview}

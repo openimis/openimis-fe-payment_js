@@ -21,9 +21,9 @@ class PaymentsPage extends Component {
         historyPush(this.props.modulesManager, this.props.history, "payment.paymentOverview", [p.uuid], newTab)
     }
 
-    onAdd = () => {
-        historyPush(this.props.modulesManager, this.props.history, "payment.payment");
-    }
+    // onAdd = () => {
+    //     historyPush(this.props.modulesManager, this.props.history, "payment.paymentNew");
+    // }
 
     render() {
         const { intl, classes, rights } = this.props;
@@ -33,7 +33,7 @@ class PaymentsPage extends Component {
                     cacheFiltersKey="paymentsPageFiltersCache"
                     onDoubleClick={this.onDoubleClick}
                 />
-                {rights.includes(RIGHT_PAYMENT_ADD) &&
+                {/* {rights.includes(RIGHT_PAYMENT_ADD) &&
                     withTooltip(
                         <div className={classes.fab}>
                             <Fab color="primary" onClick={this.onAdd}>
@@ -42,7 +42,7 @@ class PaymentsPage extends Component {
                         </div>,
                         formatMessage(intl, "payment", "addNewPaymentTooltip")
                     )
-                }
+                } */}
             </div>
         )
     }

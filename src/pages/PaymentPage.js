@@ -17,7 +17,7 @@ const styles = theme => ({
 class PaymentPage extends Component {
 
     add = () => {
-        historyPush(this.props.modulesManager, this.props.history, "payment.payment")
+        historyPush(this.props.modulesManager, this.props.history, "payment.paymentNew")
     }
 
     save = (payment) => {
@@ -46,7 +46,15 @@ class PaymentPage extends Component {
     }
 
     render() {
-        const { classes, modulesManager, history, rights, payment_uuid, overview } = this.props;
+        const {
+            classes,
+            modulesManager,
+            premium_uuid,
+            history,
+            rights,
+            payment_uuid,
+            overview,
+        } = this.props;
         if (!rights.includes(RIGHT_PAYMENT_EDIT)) return null;
 
         return (
@@ -54,8 +62,10 @@ class PaymentPage extends Component {
                 <PaymentForm
                     overview={overview}
                     payment_uuid={payment_uuid}
-                    back={e => historyPush(modulesManager, history, "payment.payments")}
-                    add={rights.includes(RIGHT_PAYMENT_ADD) ? this.add : null}
+                    premium_uuid={premium_uuid}
+                    back={e =>  window.history.back()}
+                    // back={e => historyPush(modulesManager, history, "payment.payments")}
+                    // add={rights.includes(RIGHT_PAYMENT_ADD) ? this.add : null}
                     save={rights.includes(RIGHT_PAYMENT_EDIT) ? this.save : null}
                 />
             </div>
@@ -66,6 +76,7 @@ class PaymentPage extends Component {
 const mapStateToProps = (state, props) => ({
     rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
     payment_uuid: props.match.params.payment_uuid,
+    premium_uuid: props.match.params.premium_uuid,
 })
 
 const mapDispatchToProps = dispatch => {

@@ -9,7 +9,7 @@ class PaymentOverviewPage extends Component {
     render() {
         const { history, modulesManager, payment_uuid } = this.props;
         var actions = [{
-            doIt: e => historyPush(modulesManager, history, "payment.payment", [payment_uuid]),
+            doIt: e => historyPush(modulesManager, history, "payment.paymentOverview", [payment_uuid]),
             icon: <EditIcon />,
             onlyIfDirty: false
         }]

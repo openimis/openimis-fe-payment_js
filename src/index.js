@@ -14,8 +14,8 @@ import { RIGHT_PAYMENT } from "./constants";
 
 
 const ROUTE_PAYMENTS = "payment/payments";
-const ROUTE_PAYMENTS_PAYMENT = "payment/payment";
-const ROUTE_PAYMENTS_PAYMENT_OVERVIEW = "payment/paymentOverview";
+const ROUTE_PAYMENTS_PAYMENT = "payment/new";
+const ROUTE_PAYMENTS_PAYMENT_OVERVIEW = "payment/overview";
 
 const DEFAULT_CONFIG = {
   "translations": [{ key: "en", messages: messages_en }],
@@ -24,12 +24,12 @@ const DEFAULT_CONFIG = {
   "refs": [
     { key: "payment.PaymentStatusPicker", ref: PaymentStatusPicker },
     { key: "payment.payments", ref: ROUTE_PAYMENTS },
-    { key: "payment.payment", ref: ROUTE_PAYMENTS_PAYMENT },
+    { key: "payment.paymentNew", ref: ROUTE_PAYMENTS_PAYMENT },
     { key: "payment.paymentOverview", ref: ROUTE_PAYMENTS_PAYMENT_OVERVIEW },
   ],
   "core.Router": [
     { path: ROUTE_PAYMENTS, component: PaymentsPage },
-    { path: ROUTE_PAYMENTS_PAYMENT, component: PaymentPage },
+    { path: ROUTE_PAYMENTS_PAYMENT+ "/:premium_uuid", component: PaymentPage },
     { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", component: PaymentOverviewPage },
   ],
   "insuree.FamilyOverview.panels": [PremiumsPaymentsOverview],

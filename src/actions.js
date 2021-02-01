@@ -8,7 +8,7 @@ import {
 import _ from "lodash";
 import _uuid from "lodash-uuid";
 
-const PAYMENT_SUMMARIES_PROJECTION =
+const PAYMENT_SUMMARIES_PROJECTION = mm =>
 [
     "uuid",
     "id",
@@ -19,11 +19,12 @@ const PAYMENT_SUMMARIES_PROJECTION =
     "status",
     "receiptNo",
     "typeOfPayment",
-    // "clientMutationId",
+    "clientMutationId",
+    // `paymentDetails{edges{node{premium${mm.getProjection("contribution.PremiumPicker.projection")}}}}`
 ];
-const PAYMENT_FULL_PROJECTION =
+const PAYMENT_FULL_PROJECTION = mm =>
 [
-    ...PAYMENT_SUMMARIES_PROJECTION,
+    ...PAYMENT_SUMMARIES_PROJECTION(mm),
     "officerCode",
     "phoneNumber",
     "transactionNo",
@@ -33,13 +34,13 @@ const PAYMENT_FULL_PROJECTION =
     "dateLastSms",
     "languageName",
     "transferFee",
-    // "clientMutationId",
+    "clientMutationId",
 ];
 
 export function fetchPremiumsPayments(mm, filters) {
     let payload = formatPageQueryWithCount("paymentsByPremiums",
         filters,
-        PAYMENT_SUMMARIES_PROJECTION
+        PAYMENT_SUMMARIES_PROJECTION(mm)
     );
     return graphql(payload, 'PAYMENT_PREMIUMS_PAYMENTS');
 }
@@ -47,7 +48,7 @@ export function fetchPremiumsPayments(mm, filters) {
 export function fetchPaymentsSummaries(mm, filters) {
   const payload = formatPageQueryWithCount("payments",
     filters,
-    PAYMENT_SUMMARIES_PROJECTION
+    PAYMENT_SUMMARIES_PROJECTION(mm)
   );
   return graphql(payload, 'PAYMENT_PAYMENTS');
 }
@@ -73,6 +74,7 @@ export function formatPaymentGQL(mm, payment) {
     ${!!payment.officerCode ? `officerCode: "${formatGQLString(payment.officerCode)}"` : ""}
     ${!!payment.origin ? `origin: "${formatGQLString(payment.origin)}"` : ""}
     ${!!payment.rejectedReason ? `rejectedReason: "${formatGQLString(payment.rejectedReason)}"` : ""}
+    ${!!payment.premium_uuid ? `premiumUuid: "${payment.premium_uuid}"` : ""}
   `
   return req;
 }
@@ -131,7 +133,7 @@ export function fetchPayment(mm, paymentUuid, clientMutationId) {
     }
     const payload = formatPageQuery("payments",
       filters,
-      PAYMENT_FULL_PROJECTION
+      PAYMENT_FULL_PROJECTION(mm)
     );
     return graphql(payload, 'PAYMENT_OVERVIEW');
   }
