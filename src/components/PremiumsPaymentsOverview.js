@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { injectIntl } from 'react-intl';
+import ReplayIcon from "@material-ui/icons/Replay"
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import _ from "lodash";
-import { Paper, Grid, Divider, Typography, IconButton } from "@material-ui/core";
+import { Paper, Grid, Divider, Typography, IconButton, Tooltip } from "@material-ui/core";
 import {
     Add as AddIcon,
     Delete as DeleteIcon,
@@ -13,11 +14,17 @@ import {
 import {
     formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager, formatMessage, withTooltip,
     formatSorter, sort,
-    PublishedComponent, Table, PagedDataHandler
+    journalize,
+    PublishedComponent, Table, PagedDataHandler, historyPush
 } from "@openimis/fe-core";
 
 import { fetchPremiumsPayments, deletePayment } from "../actions";
 import DeletePaymentDialog from "./DeletePaymentDialog";
+
+import {
+    RIGHT_PAYMENT_DELETE,
+    RIGHT_PAYMENT_ADD,
+ } from "../constants";
 
 const styles = theme => ({
     paper: theme.paper.paper,
@@ -25,21 +32,24 @@ const styles = theme => ({
     paperHeaderAction: theme.paper.action,
     tableTitle: theme.table.title,
     fab: theme.fab,
+    disabled:{
+        opacity: 0.4,
+    }
 });
 
 class PremiumsPaymentsOverview extends PagedDataHandler {
 
     constructor(props) {
         super(props);
-        this.state = {
-            deletePayment: null,
-        }
         this.rowsPerPageOptions = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.rowsPerPageOptions", [5, 10, 20]);
         this.defaultPageSize = props.modulesManager.getConf("fe-insuree", "premiumsPaymentsOverview.defaultPageSize", 5);
     }
 
     componentDidMount() {
-        this.setState({ orderBy: "-requestDate" }, e => this.query())
+        this.setState({
+            orderBy: "-requestDate",
+            deletePayment:  null,
+        }, e => this.query())
     }
 
     addNewPayment = () =>  {
@@ -64,6 +74,10 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
     }
 
     onDoubleClick = (i, newTab = false) => {
+        const {
+            modulesManager,
+            history,
+        } = this.props;
         historyPush(modulesManager, history, "payment.paymentOverview", [i.uuid], newTab);
     }
 
@@ -72,9 +86,12 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         (!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
         (!_.isEqual(prevProps.premium, this.props.premium))
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (this.premiumsChanged(prevProps)) {
             this.query();
+        }
+        if (prevProps.submittingMutation && !this.props.submittingMutation) {
+            this.props.journalize(this.props.mutation);
         }
     }
 
@@ -120,22 +137,33 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         this.setState({ deletePayment,})
     }
 
-    formatters = [
-        p => p.typeOfPayment,
-        p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.requestDate),
-        p => formatAmount(this.props.intl, p.expectedAmount),
-        p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.receivedDate),
-        p => formatAmount(this.props.intl, p.receivedAmount),
-        p => p.receiptNo,
-        p => <PublishedComponent
-            readOnly={true}
-            pubRef="payment.PaymentStatusPicker"
-            withLabel={false}
-            value={p.status}
-            nullLabel="payment.status.none"
-        />,
-        p => withTooltip(<IconButton onClick={this.confirmDelete}><DeleteIcon /></IconButton>, formatMessage(this.props.intl, "payment", "deletePayment.tooltip"))
-    ];
+    deletePaymentAction = (i) =>
+        !!i.validityTo || !!i.clientMutationId ? null :
+            <Tooltip title={formatMessage(this.props.intl, "payment", "deletePayment.tooltip")}>
+                <IconButton onClick={() => this.confirmDelete(i)}><DeleteIcon /></IconButton>
+            </Tooltip>
+
+    itemFormatters = () => {
+        const formatters = [
+            p => p.typeOfPayment,
+            p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.requestDate),
+            p => formatAmount(this.props.intl, p.expectedAmount),
+            p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.receivedDate),
+            p => formatAmount(this.props.intl, p.receivedAmount),
+            p => p.receiptNo,
+            p => <PublishedComponent
+                readOnly={true}
+                pubRef="payment.PaymentStatusPicker"
+                withLabel={false}
+                value={p.status}
+                nullLabel="payment.status.none"
+            />,
+        ];
+        if (!!this.props.rights.includes(RIGHT_PAYMENT_DELETE)) {
+            formatters.push(this.deletePaymentAction)
+        }
+        return formatters;
+    };
 
     header = () => {
         const { modulesManager, intl, pageInfo, premium } = this.props;
@@ -155,6 +183,8 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         }
     }
 
+    rowDisabled = (i) => !!i && !!i.validityTo
+    rowLocked = (i) => !!i && !!i.clientMutationId
 
     render() {
         const {
@@ -163,24 +193,35 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
             family,
             premiumsPayments,
             pageInfo,
-            reset,
-            premium,
             readOnly,
+            premium,
+            rights,
+            fetchingPremiumsPayments,
         } = this.props;
         if (!family.uuid) return null;
-
-        let actions = !!readOnly || !premium? [] : [
+        const canAdd = rights.includes(RIGHT_PAYMENT_ADD);
+        let actions = [
             {
-                button: <IconButton onClick={this.addNewPayment}><AddIcon /></IconButton>,
-                tooltip: formatMessage(intl, "payment", "addNewPayment.tooltip")
+                button: <IconButton onClick={this.query}><ReplayIcon /></IconButton>,
+                tooltip: formatMessage(intl, "contribution", "reload.tooltip")
             }
         ];
+        if (!!!readOnly && canAdd) {
+            actions.push(
+                {
+                    button: <IconButton className={!premium ? classes.disabled : ""} onClick={this.addNewPayment}><AddIcon /></IconButton>,
+                    tooltip: !premium ?
+                    formatMessage(intl, "payment", "addNewPayment.tooltip.selectPremium") :
+                    formatMessage(intl, "payment", "addNewPayment.tooltip")
+                }
+            )
+        }
 
         return (
             <>
                 <DeletePaymentDialog
-                        contribution={this.state.deletePayment}
-                        onConfirm={this.deletePayment}
+                        payment={this.state.deletePayment}
+                        onConfirm={() => this.deletePayment()}
                         onCancel={e => this.setState({ deletePayment: null })} />
                 <Paper className={classes.paper}>
                     <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
@@ -203,10 +244,11 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                     </Grid>
                     <Divider />
                     <Table
+                        fetching={fetchingPremiumsPayments}
                         module="payment"
                         headerActions={this.headerActions}
                         headers={this.headers}
-                        itemFormatters={this.formatters}
+                        itemFormatters={this.itemFormatters()}
                         items={premiumsPayments || []}
                         withPagination={true}
                         onDoubleClick={this.onDoubleClick}
@@ -217,6 +259,8 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                         count={pageInfo.totalCount}
                         onChangePage={this.onChangePage}
                         onChangeRowsPerPage={this.onChangeRowsPerPage}
+                        rowDisabled={i => this.rowDisabled(i)}
+                        rowLocked={i => this.rowLocked(i)}
                     />
                 </Paper>
             </>
@@ -225,6 +269,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
 }
 
 const mapStateToProps = state => ({
+    rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
     family: state.insuree.family || {},
     premium: state.contribution.premium,
     policiesPremiums: state.contribution.policiesPremiums,
@@ -233,10 +278,16 @@ const mapStateToProps = state => ({
     premiumsPayments: state.payment.premiumsPayments,
     pageInfo: state.payment.premiumsPaymentsPageInfo,
     errorPremiumsPayment: state.payment.errorPremiumsPayment,
+    submittingMutation: state.payment.submittingMutation,
+    mutation: state.payment.mutation,
 });
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ fetch: fetchPremiumsPayments, deletePayment }, dispatch);
+    return bindActionCreators({
+        fetch: fetchPremiumsPayments,
+        deletePayment,
+        journalize,
+    }, dispatch);
 };
 
 export default withModulesManager(injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PremiumsPaymentsOverview)))));

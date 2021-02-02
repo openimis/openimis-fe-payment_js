@@ -3,6 +3,7 @@
     "payment.addNewPaymentTooltip": "Add new payment",
     "payment.CreatePayment.mutationLabel": "Create payment",
     "payment.deletePayment.tooltip": "Delete payment",
+    "payment.addNewPayment.tooltip.selectPremium": "Please select a contribution to add a payment",
     "payment.deletePaymentDialog.message": "Are you sure you want to delete this payment?",
     "payment.deletePaymentDialog.title": "Delete payment",
     "payment.deletePaymentDialog.yes.button": "Yes",

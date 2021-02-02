@@ -102,6 +102,7 @@ class PaymentMasterPanel extends FormPanel {
                         <PublishedComponent
                             pubRef="contribution.PremiumPaymentTypePicker"
                             withNull={true}
+                            required
                             readOnly={readOnly}
                             value={!edited ? "" : edited.typeOfPayment}
                             onChange={p => this.updateAttribute('typeOfPayment', p)}
