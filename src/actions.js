@@ -20,6 +20,7 @@ const PAYMENT_SUMMARIES_PROJECTION = mm =>
     "receiptNo",
     "typeOfPayment",
     "clientMutationId",
+    "validityTo",
     // `paymentDetails{edges{node{premium${mm.getProjection("contribution.PremiumPicker.projection")}}}}`
 ];
 const PAYMENT_FULL_PROJECTION = mm =>

@@ -230,8 +230,8 @@ class PaymentFilter extends Component {
                     ))}
                 </Grid>
 
-                {/* <Grid container justify="flex-end">
-                    <ControlledField module="contribution" id="ContributionFilter.showHistory" field={
+                <Grid container justify="flex-end">
+                    <ControlledField module="payment" id="PaymentFilter.showHistory" field={
                         <Grid item xs={2} className={classes.item} >
                             <FormControlLabel
                                 control={
@@ -245,7 +245,7 @@ class PaymentFilter extends Component {
                             />
                         </Grid>
                     } />
-                </Grid> */}
+                </Grid>
             </section>
         )
     }
