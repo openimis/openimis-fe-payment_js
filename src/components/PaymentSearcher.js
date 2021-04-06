@@ -16,7 +16,7 @@ import {
 } from "@openimis/fe-core";
 
 import { fetchPaymentsSummaries, deletePayment } from "../actions";
-import { RIGHT_PAYMENT_DELETE } from "../constants";
+import { RIGHT_PAYMENT_DELETE, RIGHT_PAYMENT_EDIT } from "../constants";
 import DeletePaymentDialog from "./DeletePaymentDialog";
 
 const PAYMENT_SEARCHER_CONTRIBUTION_KEY = "payment.PaymentSearcher";
@@ -134,13 +134,17 @@ class PaymentSearcher extends Component {
                 withLabel={false}
                 value={p.status}
                 nullLabel="payment.status.none"
-            />,
-            p => (
-                <Tooltip title={formatMessage(this.props.intl, "payment", "contribution.openNewTab")}>
-                    <IconButton onClick={e => this.props.onDoubleClick(p, true)}> <TabIcon /></IconButton >
-                </Tooltip>
-            )
+            />
         ];
+        if (this.props.rights.includes(RIGHT_PAYMENT_EDIT)) {
+            formatters.push((p) => (
+                <Tooltip title={formatMessage(this.props.intl, "payment", "contribution.openNewTab")}>
+                    <IconButton onClick={() => this.props.onDoubleClick(p, true)}>
+                        <TabIcon />
+                    </IconButton>
+                </Tooltip>
+            ));
+        }
         if (!!this.props.rights.includes(RIGHT_PAYMENT_DELETE)) {
             formatters.push(this.deletePaymentAction)
         }
@@ -150,8 +154,18 @@ class PaymentSearcher extends Component {
     rowDisabled = (selection, i) => !!i.validityTo
     rowLocked = (selection, i) => !!i.clientMutationId
 
+    defaultFilters = () => {
+        const { additionalFilter } = this.props;
+        return !!additionalFilter ? {
+            additionalFilter: {
+                value: additionalFilter,
+                filter: `additionalFilter: ${JSON.stringify(additionalFilter)}`
+            }
+        } : null;
+    }
+
     render() {
-        const { intl,
+        const { intl, rights,
             payments, paymentsPageInfo, fetchingPayments, fetchedPayment, errorPayments,
             filterPaneContributionsKey, cacheFiltersKey, onDoubleClick
         } = this.props;
@@ -185,8 +199,14 @@ class PaymentSearcher extends Component {
                     sorts={this.sorts}
                     rowDisabled={this.rowDisabled}
                     rowLocked={this.rowLocked}
-                    onDoubleClick={c => !c.clientMutationId && onDoubleClick(c)}
+                    onDoubleClick={(c) =>
+                        !c.clientMutationId &&
+                        rights.includes(RIGHT_PAYMENT_EDIT) &&
+                        !!onDoubleClick &&
+                        onDoubleClick(c)
+                    }
                     reset={this.state.reset}
+                    defaultFilters={this.defaultFilters()}
                 />
             </Fragment>
         )

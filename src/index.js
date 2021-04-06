@@ -8,6 +8,7 @@ import PaymentOverviewPage from "./pages/PaymentOverviewPage";
 import PaymentStatusPicker from "./pickers/PaymentStatusPicker";
 import PaymentsPage from "./pages/PaymentsPage";
 import PaymentPage from "./pages/PaymentPage";
+import { PaymentsTabLabel, PaymentsTabPanel } from "./components/PaymentsTab";
 import reducer from "./reducer";
 
 import { RIGHT_PAYMENT } from "./constants";
@@ -23,6 +24,8 @@ const DEFAULT_CONFIG = {
 
   "refs": [
     { key: "payment.PaymentStatusPicker", ref: PaymentStatusPicker },
+    { key: "payment.PaymentsTab.label", ref: PaymentsTabLabel },
+    { key: "payment.PaymentsTab.panel", ref: PaymentsTabPanel },
     { key: "payment.payments", ref: ROUTE_PAYMENTS },
     { key: "payment.paymentNew", ref: ROUTE_PAYMENTS_PAYMENT },
     { key: "payment.paymentOverview", ref: ROUTE_PAYMENTS_PAYMENT_OVERVIEW },
