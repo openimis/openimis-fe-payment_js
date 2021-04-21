@@ -138,7 +138,7 @@ class PaymentSearcher extends Component {
         ];
         if (this.props.rights.includes(RIGHT_PAYMENT_EDIT)) {
             formatters.push((p) => (
-                <Tooltip title={formatMessage(this.props.intl, "payment", "contribution.openNewTab")}>
+                <Tooltip title={formatMessage(this.props.intl, "payment", "openNewTab")}>
                     <IconButton onClick={() => this.props.onDoubleClick(p, true)}>
                         <TabIcon />
                     </IconButton>
