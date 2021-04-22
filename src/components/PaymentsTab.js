@@ -33,6 +33,7 @@ class PaymentsTabPanel extends Component {
                 {isTabsEnabled && (
                     <PaymentSearcher
                         additionalFilter={additionalFilter}
+                        readOnly
                     />
                 )}
             </PublishedComponent>

@@ -2,17 +2,22 @@
 import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { injectIntl } from 'react-intl';
-import {  IconButton, Tooltip } from "@material-ui/core";
+import { injectIntl } from "react-intl";
+import { IconButton, Tooltip } from "@material-ui/core";
 import TabIcon from "@material-ui/icons/Tab";
+import { Delete as DeleteIcon } from "@material-ui/icons";
+import PaymentFilter from "./PaymentFilter";
 import {
-    Delete as DeleteIcon,
-} from '@material-ui/icons';
-
-import PaymentFilter from './PaymentFilter';
-import {
-    withModulesManager, formatMessageWithValues, formatDateFromISO, formatMessage,
-    Searcher, PublishedComponent, formatAmount, journalize,
+    withModulesManager,
+    formatMessageWithValues,
+    formatDateFromISO,
+    formatMessage,
+    Searcher,
+    PublishedComponent,
+    formatAmount,
+    journalize,
+    withHistory,
+    historyPush,
 } from "@openimis/fe-core";
 
 import { fetchPaymentsSummaries, deletePayment } from "../actions";
@@ -118,11 +123,12 @@ class PaymentSearcher extends Component {
             </Tooltip>
 
     itemFormatters = () => {
+        const { intl, modulesManager, rights, readOnly = false } = this.props;
         const formatters = [
-            p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.receivedDate),
-            p => formatDateFromISO(this.props.modulesManager, this.props.intl, p.requestDate),
-            p => formatAmount(this.props.intl, p.expectedAmount),
-            p => formatAmount(this.props.intl, p.receivedAmount),
+            p => formatDateFromISO(modulesManager, intl, p.receivedDate),
+            p => formatDateFromISO(modulesManager, intl, p.requestDate),
+            p => formatAmount(intl, p.expectedAmount),
+            p => formatAmount(intl, p.receivedAmount),
             p => <PublishedComponent
                 readOnly={true}
                 pubRef="contribution.PremiumPaymentTypePicker" withLabel={false} value={p.typeOfPayment}
@@ -136,17 +142,17 @@ class PaymentSearcher extends Component {
                 nullLabel="payment.status.none"
             />
         ];
-        if (this.props.rights.includes(RIGHT_PAYMENT_EDIT)) {
+        if (rights.includes(RIGHT_PAYMENT_EDIT)) {
             formatters.push((p) => (
-                <Tooltip title={formatMessage(this.props.intl, "payment", "openNewTab")}>
-                    <IconButton onClick={() => this.props.onDoubleClick(p, true)}>
+                <Tooltip title={formatMessage(intl, "payment", "openNewTab")}>
+                    <IconButton onClick={() => this.onDoubleClick(p, true)}>
                         <TabIcon />
                     </IconButton>
                 </Tooltip>
             ));
         }
-        if (!!this.props.rights.includes(RIGHT_PAYMENT_DELETE)) {
-            formatters.push(this.deletePaymentAction)
+        if (!readOnly && rights.includes(RIGHT_PAYMENT_DELETE)) {
+            formatters.push(this.deletePaymentAction);
         }
         return formatters;
     }
@@ -164,10 +170,14 @@ class PaymentSearcher extends Component {
         } : null;
     }
 
+    onDoubleClick = (p, newTab = false) => {
+        historyPush(this.props.modulesManager, this.props.history, "payment.paymentOverview", [p.uuid], newTab)
+    }
+
     render() {
         const { intl, rights,
             payments, paymentsPageInfo, fetchingPayments, fetchedPayment, errorPayments,
-            filterPaneContributionsKey, cacheFiltersKey, onDoubleClick
+            filterPaneContributionsKey, cacheFiltersKey
         } = this.props;
         let count = paymentsPageInfo.totalCount;
         return (
@@ -200,10 +210,7 @@ class PaymentSearcher extends Component {
                     rowDisabled={this.rowDisabled}
                     rowLocked={this.rowLocked}
                     onDoubleClick={(c) =>
-                        !c.clientMutationId &&
-                        rights.includes(RIGHT_PAYMENT_EDIT) &&
-                        !!onDoubleClick &&
-                        onDoubleClick(c)
+                        !c.clientMutationId && rights.includes(RIGHT_PAYMENT_EDIT) && this.onDoubleClick(c)
                     }
                     reset={this.state.reset}
                     defaultFilters={this.defaultFilters()}
@@ -231,4 +238,4 @@ const mapDispatchToProps = dispatch => {
         dispatch);
 };
 
-export default withModulesManager(connect(mapStateToProps, mapDispatchToProps)(injectIntl(PaymentSearcher)));
+export default withModulesManager(withHistory(connect(mapStateToProps, mapDispatchToProps)(injectIntl(PaymentSearcher))));

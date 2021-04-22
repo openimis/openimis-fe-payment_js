@@ -16,11 +16,6 @@ const styles = theme => ({
 
 
 class PaymentsPage extends Component {
-
-    onDoubleClick = (p, newTab = false) => {
-        historyPush(this.props.modulesManager, this.props.history, "payment.paymentOverview", [p.uuid], newTab)
-    }
-
     // onAdd = () => {
     //     historyPush(this.props.modulesManager, this.props.history, "payment.paymentNew");
     // }
@@ -31,7 +26,6 @@ class PaymentsPage extends Component {
             <div className={classes.page}>
                 <PaymentSearcher
                     cacheFiltersKey="paymentsPageFiltersCache"
-                    onDoubleClick={this.onDoubleClick}
                 />
                 {/* {rights.includes(RIGHT_PAYMENT_ADD) &&
                     withTooltip(
