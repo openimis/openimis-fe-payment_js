@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import ReplayIcon from "@material-ui/icons/Replay"
 import {
-    formatMessageWithValues, withModulesManager, withHistory, historyPush,
+    Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
     Form, ProgressOrError, journalize, coreConfirm
 } from "@openimis/fe-core";
 import { RIGHT_PAYMENT, RIGHT_PAYMENT_EDIT } from "../constants";
@@ -35,12 +35,6 @@ class PaymentForm extends Component {
     }
 
     componentDidMount() {
-        document.title = formatMessageWithValues(
-            this.props.intl,
-            "payment",
-            "PaymentOverview.title",
-            { label: "" }
-        );
         if (this.props.payment_uuid) {
             this.setState(
                 (state, props) => ({ payment_uuid: props.payment_uuid }),
@@ -86,20 +80,6 @@ class PaymentForm extends Component {
             this.state.confirmedAction();
         }
     }
-
-    // _add = () => {
-    //     this.setState((state) => ({
-    //         payment: this._newPayment(),
-    //         newPayment: true,
-    //         lockNew: false,
-    //         reset: state.reset + 1,
-    //     }),
-    //         e => {
-    //             this.props.add();
-    //             this.forceUpdate();
-    //         }
-    //     )
-    // }
 
     reload = () => {
         const { payment } = this.state;
@@ -162,6 +142,7 @@ class PaymentForm extends Component {
         }];
         return (
             <div className={!!runningMutation ? classes.lockedPage : null}>
+                <Helmet title={formatMessageWithValues(this.props.intl, "payment", "PaymentOverview.title")} />
                 <ProgressOrError progress={fetchingPayment} error={errorPayment} />
                 {((!!fetchedPayment && !!payment && payment.uuid === payment_uuid) || !payment_uuid) && (
                     <Form
