@@ -50,5 +50,6 @@
     "payment.receivedAmount_Gte": "Received amount above",
     "payment.receivedAmount_Lte": "Received amount under",
     "payment.showHistory": "Show historical values",
-    "payment.UpdatePayment.mutationLabel": "Update payment"
+    "payment.UpdatePayment.mutationLabel": "Update payment",
+    "payment.showReconciledOnly" : "Show reconciled only"
 }
