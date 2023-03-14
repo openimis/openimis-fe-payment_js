@@ -8,7 +8,7 @@ import {
 } from "@openimis/fe-core";
 import PaymentForm from "../components/PaymentForm";
 import { createPayment, updatePayment } from "../actions";
-import { RIGHT_PAYMENT_ADD, RIGHT_PAYMENT_EDIT } from "../constants";
+import { RIGHT_PAYMENT_EDIT } from "../constants";
 
 const styles = theme => ({
     page: theme.page,
