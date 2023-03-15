@@ -6,7 +6,6 @@ import {
     formatGQLString,
 } from "@openimis/fe-core";
 import _ from "lodash";
-import _uuid from "lodash-uuid";
 
 const PAYMENT_SUMMARIES_PROJECTION = mm =>
 [

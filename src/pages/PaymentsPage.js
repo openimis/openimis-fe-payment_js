@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from "@material-ui/core/styles";
-import { Fab } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import { historyPush, withModulesManager, withHistory, withTooltip, formatMessage } from "@openimis/fe-core"
+import { withModulesManager, withHistory } from "@openimis/fe-core"
 import PaymentSearcher from "../components/PaymentSearcher";
-
-import { RIGHT_PAYMENT_ADD } from "../constants";
 
 const styles = theme => ({
     page: theme.page,
