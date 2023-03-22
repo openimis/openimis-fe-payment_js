@@ -8,6 +8,7 @@ import {
   withHistory,
   clearCurrentPaginationPage,
 } from "@openimis/fe-core";
+import { MODULE_NAME } from "../constants";
 import PaymentSearcher from "../components/PaymentSearcher";
 
 const styles = theme => ({
@@ -21,9 +22,8 @@ class PaymentsPage extends Component {
     // }
 
     componentDidMount = () => {
-        const moduleName = "payment";
         const { module } = this.props;
-        if (module !== moduleName) this.props.clearCurrentPaginationPage();
+        if (module !== MODULE_NAME) this.props.clearCurrentPaginationPage();
       };
 
     render() {
