@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { injectIntl } from 'react-intl';
+import { injectIntl } from "react-intl";
 import { withTheme, withStyles } from "@material-ui/core/styles";
-import { withModulesManager, withHistory } from "@openimis/fe-core"
+import {
+  withModulesManager,
+  withHistory,
+  clearCurrentPaginationPage,
+} from "@openimis/fe-core";
+import { MODULE_NAME } from "../constants";
 import PaymentSearcher from "../components/PaymentSearcher";
 
 const styles = theme => ({
@@ -10,11 +16,15 @@ const styles = theme => ({
     fab: theme.fab
 });
 
-
 class PaymentsPage extends Component {
     // onAdd = () => {
     //     historyPush(this.props.modulesManager, this.props.history, "payment.paymentNew");
     // }
+
+    componentDidMount = () => {
+        const { module } = this.props;
+        if (module !== MODULE_NAME) this.props.clearCurrentPaginationPage();
+      };
 
     render() {
         const { intl, classes, rights } = this.props;
@@ -40,8 +50,11 @@ class PaymentsPage extends Component {
 
 const mapStateToProps = state => ({
     rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
+    module: state.core?.savedPagination?.module,
 })
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({ clearCurrentPaginationPage }, dispatch);
+
 export default injectIntl(withModulesManager(
-    withHistory(connect(mapStateToProps)(withTheme(withStyles(styles)(PaymentsPage))))
+    withHistory(connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(PaymentsPage))))
 ));
