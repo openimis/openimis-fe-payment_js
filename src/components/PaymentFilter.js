@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import _debounce from "lodash/debounce";
-import { withTheme, withStyles } from "@material-ui/core/styles";
 import { injectIntl } from "react-intl";
+import _debounce from "lodash/debounce";
+
 import { Grid, Checkbox, FormControlLabel } from "@material-ui/core";
+import { withTheme, withStyles } from "@material-ui/core/styles";
+
 import {
   withModulesManager,
   AmountInput,
@@ -28,26 +30,9 @@ const styles = (theme) => ({
 const PAYMENT_FILTER_CONTRIBUTION_KEY = "payment.Filter";
 
 class PaymentFilter extends Component {
-  state = {
-    showHistory: false,
-    showReconciled: false,
-  };
-
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.filters["showHistory"] !== this.props.filters["showHistory"] &&
-      !!this.props.filters["showHistory"] &&
-      this.state.showHistory !== this.props.filters["showHistory"]["value"]
-    ) {
-      this.setState((state, props) => ({
-        showHistory: props.filters["showHistory"]["value"],
-      }));
-    }
-  }
-
   debouncedOnChangeFilter = _debounce(
     this.props.onChangeFilters,
-    this.props.modulesManager.getConf("fe-payment", "debounceTime", 800)
+    this.props.modulesManager.getConf("fe-payment", "debounceTime", 200)
   );
 
   _filterValue = (k) => {
@@ -55,32 +40,20 @@ class PaymentFilter extends Component {
     return !!filters && !!filters[k] ? filters[k].value : null;
   };
 
-  _onChangeShowHistory = () => {
-    let filters = [
-      {
-        id: "showHistory",
-        value: !this.state.showHistory,
-        filter: `showHistory: ${!this.state.showHistory}`,
-      },
-    ];
-    this.props.onChangeFilters(filters);
-    this.setState((state) => ({
-      showHistory: !state.showHistory,
-    }));
+  _filterTextFieldValue = (k) => {
+    const { filters } = this.props;
+    return !!filters && !!filters[k] ? filters[k].value : "";
   };
 
-  _onChangeShowReconciled = () => {
+  _onChangeCheckbox = (key, value) => {
     let filters = [
       {
-        id: "showReconciled",
-        value: !this.state.showReconciled,
-        filter: `showReconciled: ${!this.state.showReconciled}`,
+        id: key,
+        value: value,
+        filter: `${key}: ${value}`,
       },
     ];
     this.props.onChangeFilters(filters);
-    this.setState((state) => ({
-      showReconciled: !state.showReconciled,
-    }));
   };
 
   render() {
@@ -141,7 +114,7 @@ class PaymentFilter extends Component {
                   module="payment"
                   label="payment.receiptNo"
                   name="receiptNo"
-                  value={this._filterValue("receiptNo")}
+                  value={this._filterTextFieldValue("receiptNo")}
                   onChange={(v) =>
                     this.debouncedOnChangeFilter([
                       {
@@ -309,8 +282,13 @@ class PaymentFilter extends Component {
                   control={
                     <Checkbox
                       color="primary"
-                      checked={this.state.showReconciled}
-                      onChange={(e) => this._onChangeShowReconciled()}
+                      checked={!!this._filterValue("showReconciled")}
+                      onChange={(event) =>
+                        this._onChangeCheckbox(
+                          "showReconciled",
+                          event.target.checked
+                        )
+                      }
                     />
                   }
                   label={formatMessage(intl, "payment", "showReconciledOnly")}
@@ -318,9 +296,6 @@ class PaymentFilter extends Component {
               </Grid>
             }
           />
-        </Grid>
-
-        <Grid container justify="flex-end">
           <ControlledField
             module="payment"
             id="PaymentFilter.showHistory"
@@ -330,8 +305,13 @@ class PaymentFilter extends Component {
                   control={
                     <Checkbox
                       color="primary"
-                      checked={this.state.showHistory}
-                      onChange={(e) => this._onChangeShowHistory()}
+                      checked={!!this._filterValue("showHistory")}
+                      onChange={(event) =>
+                        this._onChangeCheckbox(
+                          "showHistory",
+                          event.target.checked
+                        )
+                      }
                     />
                   }
                   label={formatMessage(intl, "payment", "showHistory")}
