@@ -33,7 +33,7 @@
   "payment.payment.status.-3": "Failed to Receive Control Number",
   "payment.payment.status.-2": "Failed to Request Control Number",
   "payment.payment.status.-1": "Failed to Create Payment",
-  "payment.payment.status.0": "Cacelled",
+  "payment.payment.status.0": "Cancelled",
   "payment.payment.status.1": "Payment Created",
   "payment.payment.status.2": "Control Number Requested",
   "payment.payment.status.3": "Control Number Received",
