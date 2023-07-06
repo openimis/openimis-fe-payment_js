@@ -8,7 +8,7 @@ import {
     Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
     Form, ProgressOrError, journalize, coreConfirm
 } from "@openimis/fe-core";
-import { RIGHT_PAYMENT, RIGHT_PAYMENT_EDIT } from "../constants";
+import { RIGHT_PAYMENT } from "../constants";
 
 import { fetchPayment, newPayment, createPayment } from "../actions";
 import PaymentMasterPanel from "./PaymentMasterPanel";
@@ -162,6 +162,7 @@ class PaymentForm extends Component {
                         canSave={this.canSave}
                         save={!!save ? this._save : null}
                         onActionToConfirm={this.onActionToConfirm}
+                        openDirty={save}
                     />
                 )}
             </div>

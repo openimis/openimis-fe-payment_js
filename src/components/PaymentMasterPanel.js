@@ -11,7 +11,6 @@ import {
     TextInput,
     PublishedComponent,
     FormPanel,
-    formatMessage,
 } from "@openimis/fe-core";
 
 
