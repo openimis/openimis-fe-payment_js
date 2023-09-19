@@ -50,7 +50,7 @@ const DEFAULT_CONFIG = {
       text: <FormattedMessage module="payment" id="menu.payments" />,
       icon: <PaymentIcon />,
       route: "/" + ROUTE_PAYMENTS,
-      filter: rights => rights.includes(R)
+      filter: rights => rights.includes(RIGHT_BILL_PAYMENT_SEARCH)
     }
   ]
 }
