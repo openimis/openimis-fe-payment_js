@@ -15,12 +15,10 @@ const PaymentInvoicesPage = ({ intl, classes, rights }) => {
   }, []);
 
   return (
-    rights.includes(RIGHT_BILL_PAYMENT_SEARCH) && (
       <div className={classes.page}>
         <Helmet title={formatMessage(intl, "invoice", "invoices.pageTitle")} />
         <PaymentInvoiceSearcher rights={rights} />
       </div>
-    )
   );
 };
 
