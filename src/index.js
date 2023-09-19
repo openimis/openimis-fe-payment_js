@@ -7,6 +7,7 @@ import PremiumsPaymentsOverview from "./components/PremiumsPaymentsOverview";
 import PaymentOverviewPage from "./pages/PaymentOverviewPage";
 import PaymentStatusPicker from "./pickers/PaymentStatusPicker";
 import PaymentsPage from "./pages/PaymentsPage";
+import PaymentInvoicesPage from "./pages/PaymentInvoicesPage";
 import PaymentPage from "./pages/PaymentPage";
 import { PaymentsTabLabel, PaymentsTabPanel } from "./components/PaymentsTab";
 import reducer from "./reducer";
@@ -31,7 +32,7 @@ const DEFAULT_CONFIG = {
     { key: "payment.paymentOverview", ref: ROUTE_PAYMENTS_PAYMENT_OVERVIEW },
   ],
   "core.Router": [
-    { path: ROUTE_PAYMENTS, component: PaymentsPage },
+    { path: ROUTE_PAYMENTS, component: PaymentInvoicesPage },
     { path: ROUTE_PAYMENTS_PAYMENT+ "/:premium_uuid", component: PaymentPage },
     { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", component: PaymentOverviewPage },
   ],

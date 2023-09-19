@@ -25,6 +25,20 @@ function reducer(
         errorPayment: null,
         submittingMutation: false,
         mutation: {},
+
+        fetchingPaymentInvoices: false,
+        errorPaymentInvoices: null,
+        fetchedPaymentInvoices: false,
+        paymentInvoices: [],
+        paymentInvoicesPageInfo: {},
+        paymentInvoicesTotalCount: 0,
+
+        fetchingDetailPaymentInvoices: false,
+        errorDetailPaymentInvoices: null,
+        fetchedDetailPaymentInvoices: false,
+        detailPaymentInvoices: [],
+        detailPaymentInvoicesPageInfo: {},
+        detailPaymentInvoicesTotalCount: 0,
     },
     action,
 ) {
@@ -119,6 +133,69 @@ function reducer(
                 paymentsPageInfo : { totalCount: 0 },
                 payment: null,
             };
+
+        case 'PAYMENTINVOICE__PAYMENT_INVOICE_REQ':
+            return {
+                ...state,
+                fetchingPaymentInvoices: true,
+                fetchedPaymentInvoices: false,
+                paymentInvoices: [],
+                paymentInvoicesPageInfo: {},
+                paymentInvoicesTotalCount: 0,
+                errorPaymentInvoices: null,
+            };
+        case 'PAYMENTINVOICE__PAYMENT_INVOICE_RESP':
+            return {
+                ...state,
+                fetchingPaymentInvoices: false,
+                fetchedPaymentInvoices: true,
+                paymentInvoices: parseData(action.payload.data.paymentInvoice)?.map((paymentInvoice) => ({
+                  ...paymentInvoice,
+                  id: decodeId(paymentInvoice.id),
+                  reconciliationStatus: getEnumValue(paymentInvoice?.reconciliationStatus),
+                })),
+                paymentInvoicesPageInfo: pageInfo(action.payload.data.paymentInvoice),
+                paymentInvoicesTotalCount: action.payload.data.paymentInvoice?.totalCount,
+                errorPaymentInvoices: formatGraphQLError(action.payload),
+            };
+        case 'PAYMENTINVOICE__PAYMENT_INVOICE_ERR':
+            return {
+                ...state,
+                fetchingPaymentInvoices: false,
+                errorPaymentInvoices: formatServerError(action.payload),
+            };
+          
+        case 'PAYMENTINVOICE__DETAIL_PAYMENT_INVOICE_REQ':
+            return {
+                ...state,
+                fetchingDetailPaymentInvoices: true,
+                fetchedDetailPaymentInvoices: false,
+                detailPaymentInvoices: [],
+                detailPaymentInvoicesPageInfo: {},
+                detailPaymentInvoicesTotalCount: 0,
+                errorPaymentInvoices: null,
+            };
+        case 'PAYMENTINVOICE__DETAIL_PAYMENT_INVOICE_RESP':
+            return {
+                ...state,
+                fetchingDetailPaymentInvoices: false,
+                fetchedDetailPaymentInvoices: true,
+                detailPaymentInvoices: parseData(action.payload.data.detailPaymentInvoice)?.map((detailPaymentInvoice) => ({
+                  ...detailPaymentInvoice,
+                  id: decodeId(detailPaymentInvoice.id),
+                  reconciliationStatus: getEnumValue(detailPaymentInvoice?.reconciliationStatus),
+                })),
+                detailPaymentInvoicesPageInfo: pageInfo(action.payload.data.detailPaymentInvoice),
+                detailPaymentInvoicesTotalCount: action.payload.data.detailPaymentInvoice?.totalCount,
+                errorDetailPaymentInvoices: formatGraphQLError(action.payload),
+            };
+        case 'PAYMENTINVOICE__DETAIL_PAYMENT_INVOICE_ERR':
+            return {
+                ...state,
+                fetchingDetailPaymentInvoices: false,
+                errorDetailPaymentInvoices: formatServerError(action.payload),
+            };
+        
         case 'PAYMENT_MUTATION_REQ':
             return dispatchMutationReq(state, action)
         case 'PAYMENT_MUTATION_ERR':
