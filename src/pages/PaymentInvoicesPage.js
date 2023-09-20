@@ -14,8 +14,6 @@ const PaymentInvoicesPage = ({ intl, classes, rights }) => {
     dispatch(clearCurrentPaginationPage());
   }, []);
 
-  console.log('check page');
-
   return (
       <div className={classes.page}>
         <Helmet title={formatMessage(intl, "invoice", "invoices.pageTitle")} />

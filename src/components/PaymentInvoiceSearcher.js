@@ -27,7 +27,6 @@ const PaymentInvoiceSearcher = ({
   intl,
   modulesManager,
   rights,
-  bill,
   setConfirmedAction,
   deletePaymentInvoice,
   submittingMutation,
@@ -46,8 +45,6 @@ const PaymentInvoiceSearcher = ({
   const [paymentInvoiceToDelete, setPaymentInvoiceToDelete] = useState(null);
   const [deletedPaymentInvoiceUuids, setDeletedPaymentInvoiceUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
-
-  console.log('check payment invoice searcher');
 
   useEffect(() => {
     if (
@@ -139,31 +136,29 @@ const PaymentInvoiceSearcher = ({
   });
 
   return (
-    !!bill?.id && (
-      <Searcher
-        module="bill"
-        FilterPane={PaymentInvoiceFilter}
-        fetch={fetch}
-        items={paymentInvoices}
-        itemsPageInfo={paymentInvoicesPageInfo}
-        fetchingItems={fetchingPaymentInvoices}
-        fetchedItems={fetchedPaymentInvoices}
-        errorItems={errorPaymentInvoices}
-        tableTitle={formatMessageWithValues(intl, "invoice", "paymentInvoices.searcherResultsTitle", {
-          paymentInvoicesTotalCount,
-        })}
-        filtersToQueryParams={filtersToQueryParams}
-        headers={headers}
-        itemFormatters={itemFormatters}
-        sorts={sorts}
-        rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-        defaultPageSize={DEFAULT_PAGE_SIZE}
-        defaultOrderBy="codeExt"
-        defaultFilters={defaultFilters()}
-        rowDisabled={isRowDisabled}
-        rowLocked={isRowDisabled}
-      />
-    )
+    <Searcher
+      module="payment"
+      FilterPane={PaymentInvoiceFilter}
+      fetch={fetch}
+      items={paymentInvoices}
+      itemsPageInfo={paymentInvoicesPageInfo}
+      fetchingItems={fetchingPaymentInvoices}
+      fetchedItems={fetchedPaymentInvoices}
+      errorItems={errorPaymentInvoices}
+      tableTitle={formatMessageWithValues(intl, "invoice", "paymentInvoices.searcherResultsTitle", {
+        paymentInvoicesTotalCount,
+      })}
+      filtersToQueryParams={filtersToQueryParams}
+      headers={headers}
+      itemFormatters={itemFormatters}
+      sorts={sorts}
+      rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+      defaultPageSize={DEFAULT_PAGE_SIZE}
+      defaultOrderBy="codeExt"
+      defaultFilters={defaultFilters()}
+      rowDisabled={isRowDisabled}
+      rowLocked={isRowDisabled}
+    />
   );
 };
 
