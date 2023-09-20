@@ -6,6 +6,7 @@ import {
     dispatchMutationResp,
     dispatchMutationErr,
     dispatchMutationReq,
+    decodeId,
 } from '@openimis/fe-core';
 
 function reducer(
