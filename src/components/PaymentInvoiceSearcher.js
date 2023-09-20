@@ -47,6 +47,8 @@ const PaymentInvoiceSearcher = ({
   const [deletedPaymentInvoiceUuids, setDeletedPaymentInvoiceUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
 
+  console.log('check payment invoice searcher');
+
   useEffect(() => {
     if (
       prevSubmittingMutationRef.current &&

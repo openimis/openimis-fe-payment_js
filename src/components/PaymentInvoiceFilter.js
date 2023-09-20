@@ -55,6 +55,8 @@ const PaymentInvoiceFilter = ({ intl, classes, filters, onChangeFilters }) => {
           ]);
     };
 
+  console.log('check payment invoice filter');
+
   return (
     <Grid container className={classes.form}>
       <Grid item xs={2} className={classes.item}>
