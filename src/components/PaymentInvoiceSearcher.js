@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import {
-  formatMessage,
   formatMessageWithValues,
   Searcher,
   formatDateFromISO,
@@ -14,25 +13,16 @@ import { fetchPaymentInvoices, deletePaymentInvoice } from "../actions";
 import {
   DEFAULT_PAGE_SIZE,
   EMPTY_STRING,
-  RIGHT_BILL_PAYMENT_DELETE,
   ROWS_PER_PAGE_OPTIONS,
 } from "../constants";
 import PaymentInvoiceFilter from "./PaymentInvoiceFilter";
 import PaymentInvoiceStatusPicker from "../pickers/PaymentInvoiceStatusPicker"
-import DeleteIcon from "@material-ui/icons/Delete";
-import { IconButton, Tooltip } from "@material-ui/core";
-import { ACTION_TYPE } from "../reducer";
 
 const PaymentInvoiceSearcher = ({
   intl,
   modulesManager,
-  rights,
-  setConfirmedAction,
-  deletePaymentInvoice,
   submittingMutation,
   mutation,
-  coreConfirm,
-  confirmed,
   fetchPaymentInvoices,
   fetchingPaymentInvoices,
   fetchedPaymentInvoices,
@@ -42,8 +32,6 @@ const PaymentInvoiceSearcher = ({
   paymentInvoicesTotalCount,
 }) => {
   const [queryParams, setQueryParams] = useState([]);
-  const [paymentInvoiceToDelete, setPaymentInvoiceToDelete] = useState(null);
-  const [deletedPaymentInvoiceUuids, setDeletedPaymentInvoiceUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
 
   useEffect(() => {
