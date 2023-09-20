@@ -14,6 +14,7 @@ export const DEFAULT_DEBOUNCE_TIME = 200;
 export const EMPTY_STRING = "";
 export const ROWS_PER_PAGE_OPTIONS = [10, 20, 50, 100];
 export const DEFAULT_PAGE_SIZE = 10;
+export const ENUM_PREFIX_LENGTH = 2;
 
 export const PAYMENT_MAIN_STATUS = {
   NOT_RECONCILIATED: "0",
