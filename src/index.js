@@ -16,6 +16,7 @@ import { RIGHT_PAYMENT, RIGHT_BILL_PAYMENT_SEARCH } from "./constants";
 
 
 const ROUTE_PAYMENTS = "payment/payments";
+const ROUTE_PAYMENTS_INVOICE = "payment/paymentsInvoice";
 const ROUTE_PAYMENTS_PAYMENT = "payment/new";
 const ROUTE_PAYMENTS_PAYMENT_OVERVIEW = "payment/overview";
 
@@ -32,7 +33,8 @@ const DEFAULT_CONFIG = {
     { key: "payment.paymentOverview", ref: ROUTE_PAYMENTS_PAYMENT_OVERVIEW },
   ],
   "core.Router": [
-    { path: ROUTE_PAYMENTS, component: PaymentInvoicesPage },
+    { path: ROUTE_PAYMENTS, component: PaymentsPage },
+    { path: ROUTE_PAYMENTS_INVOICE, component: PaymentInvoicesPage },
     { path: ROUTE_PAYMENTS_PAYMENT+ "/:premium_uuid", component: PaymentPage },
     { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", component: PaymentOverviewPage },
   ],
@@ -49,7 +51,7 @@ const DEFAULT_CONFIG = {
     {
       text: <FormattedMessage module="payment" id="menu.payments" />,
       icon: <PaymentIcon />,
-      route: "/" + ROUTE_PAYMENTS
+      route: "/" + ROUTE_PAYMENTS_INVOICE
     }
   ]
 }
