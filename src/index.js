@@ -12,7 +12,7 @@ import PaymentPage from "./pages/PaymentPage";
 import { PaymentsTabLabel, PaymentsTabPanel } from "./components/PaymentsTab";
 import reducer from "./reducer";
 
-import { RIGHT_PAYMENT, RIGHT_BILL_PAYMENT_SEARCH } from "./constants";
+import { RIGHT_PAYMENT, RIGHT_BILL_PAYMENT_SEARCH, RIGHT_BILL_SEARCH } from "./constants";
 
 
 const ROUTE_PAYMENTS = "payment/payments";
@@ -51,7 +51,8 @@ const DEFAULT_CONFIG = {
     {
       text: <FormattedMessage module="payment" id="menu.payments" />,
       icon: <PaymentIcon />,
-      route: "/" + ROUTE_PAYMENTS_INVOICE
+      route: "/" + ROUTE_PAYMENTS_INVOICE,
+      filter: rights => rights.includes(RIGHT_BILL_SEARCH)
     }
   ]
 }
