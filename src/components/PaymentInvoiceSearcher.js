@@ -156,8 +156,6 @@ const PaymentInvoiceSearcher = ({
       defaultPageSize={DEFAULT_PAGE_SIZE}
       defaultOrderBy="codeExt"
       defaultFilters={defaultFilters()}
-      rowDisabled={isRowDisabled}
-      rowLocked={isRowDisabled}
     />
   );
 };
