@@ -56,6 +56,8 @@ const DEFAULT_CONFIG = {
   ]
 }
 
+console.log('xxx');
+
 export const PaymentModule = (cfg) => {
   return { ...DEFAULT_CONFIG, ...cfg };
 }
