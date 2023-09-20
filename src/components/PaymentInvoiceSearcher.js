@@ -145,7 +145,7 @@ const PaymentInvoiceSearcher = ({
       fetchingItems={fetchingPaymentInvoices}
       fetchedItems={fetchedPaymentInvoices}
       errorItems={errorPaymentInvoices}
-      tableTitle={formatMessageWithValues(intl, "invoice", "paymentInvoices.searcherResultsTitle", {
+      tableTitle={formatMessageWithValues(intl, "payment", "paymentInvoices.searcherResultsTitle", {
         paymentInvoicesTotalCount,
       })}
       filtersToQueryParams={filtersToQueryParams}

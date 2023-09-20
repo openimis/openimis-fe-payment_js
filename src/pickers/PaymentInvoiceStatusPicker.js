@@ -17,19 +17,19 @@ const PaymentInvoiceStatusPicker = ({
 }) => {
   const options = Object.keys(PAYMENT_MAIN_STATUS).map((key) => ({
     value: PAYMENT_MAIN_STATUS[key],
-    label: formatMessage(intl, "invoice", `paymentInvoice.reconciliationStatus.${key}`),
+    label: formatMessage(intl, "payment", `paymentInvoice.reconciliationStatus.${key}`),
   }));
 
   if (withNull) {
     options.unshift({
       value: null,
-      label: nullLabel || formatMessage(intl, "invoice", "emptyLabel"),
+      label: nullLabel || formatMessage(intl, "payment", "emptyLabel"),
     });
   }
 
   return (
     <SelectInput
-      module="invoice"
+      module="payment"
       label={withLabel && label}
       options={options}
       value={value}
