@@ -54,5 +54,65 @@
   "payment.receivedAmount_Lte": "Received amount under",
   "payment.showHistory": "Show historical values",
   "payment.UpdatePayment.mutationLabel": "Update payment",
-  "payment.showReconciledOnly": "Show reconciled only"
+  "payment.showReconciledOnly": "Show reconciled only",
+  "paymentInvoices": {
+    "label": "Payments",
+    "searcherResultsTitle": "{paymentInvoicesTotalCount} Payments Found"
+  },
+  "paymentInvoice": {
+    "reconciliationStatus": {
+      "label": "Reconciliation Status",
+      "NOT_RECONCILIATED": "Not reconciliated",
+      "RECONCILIATED": "Reconciliated",
+      "REFUNDED": "Refunded",
+      "CANCELLED": "Cancelled"
+    },
+    "status": {
+      "label": "Status",
+      "REJECTED": "Rejected",
+      "ACCEPTED": "Accepted",
+      "REFUNDED": "Refunded",
+      "CANCELLED": "Cancelled"
+    },
+    "codeExt":"Code",
+    "label": "Label",
+    "codeTp": "Code Thirdparty",
+    "codeReceipt": "Receipt Number",
+    "fees": "Fees",
+    "amountReceived": "Amount Received",
+    "datePayment": "Payment Date",
+    "paymentOrigin": "Payment Origin",
+    "payerRef": "Payer Reference",
+    "payerName": "Payer Name",
+    "create": {
+      "label": "Create new Payment",
+      "mutationLabel": "Create Payment {paymentInvoiceLabel} for {code}"
+    },
+    "update": {
+      "label": "Update Payment",
+      "mutationLabel":"Update Payment {paymentInvoiceLabel} of {code}"
+    },
+    "delete": {
+      "confirm": {
+        "title": "Delete {paymentInvoiceLabel}?",
+        "message": "Deleting data does not mean erasing it from openIMIS database. The data will only be deactivated from the viewed list."
+      },
+      "mutationLabel": "Delete Payment {paymentInvoiceLabel} of {code}"
+    }
+  },
+  "detailPaymentInvoice": {
+    "status": {
+      "label": "Status",
+      "REJECTED": "Rejected",
+      "ACCEPTED": "Accepted",
+      "REFUNDED": "Refunded",
+      "CANCELLED": "Cancelled"
+    },
+    "fees": "Fees",
+    "amount": "Amount",
+    "reconciliationId": "Reconciliation Id",
+    "reconciliationDate": "Reconciliation Date"
+  },
+  "emptyLabel": " ",
+  "any": "Any"
 }
