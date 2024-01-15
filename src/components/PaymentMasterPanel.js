@@ -100,7 +100,7 @@ class PaymentMasterPanel extends FormPanel {
                     <Grid item xs={3} className={classes.item}>
                         <PublishedComponent
                             pubRef="contribution.PremiumPaymentTypePicker"
-                            withNull={true}
+                            withNull={false}
                             required
                             readOnly={readOnly}
                             value={!edited ? "" : edited.typeOfPayment}
@@ -119,7 +119,7 @@ class PaymentMasterPanel extends FormPanel {
                     <Grid item xs={3} className={classes.item}>
                         <PublishedComponent
                             pubRef="payment.PaymentStatusPicker"
-                            withNull={true}
+                            withNull={false}
                             readOnly={readOnly}
                             value={!edited ? "" : edited.status}
                             onChange={p => this.updateAttribute('status', p)}
