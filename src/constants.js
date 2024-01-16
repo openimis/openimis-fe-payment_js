@@ -1,3 +1,4 @@
+
 export const RIGHT_PAYMENT = 101401;
 export const RIGHT_PAYMENT_SEARCH = 101401;
 export const RIGHT_PAYMENT_ADD = 101402;
@@ -30,3 +31,4 @@ export const MODULE_NAME = "payment";
 
 export const PAYMENT_STATUS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
 export const PAYMENTS_TAB_VALUE = "paymentsTab";
+
