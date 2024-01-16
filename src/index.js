@@ -7,14 +7,16 @@ import PremiumsPaymentsOverview from "./components/PremiumsPaymentsOverview";
 import PaymentOverviewPage from "./pages/PaymentOverviewPage";
 import PaymentStatusPicker from "./pickers/PaymentStatusPicker";
 import PaymentsPage from "./pages/PaymentsPage";
+import PaymentInvoicesPage from "./pages/PaymentInvoicesPage";
 import PaymentPage from "./pages/PaymentPage";
 import { PaymentsTabLabel, PaymentsTabPanel } from "./components/PaymentsTab";
 import reducer from "./reducer";
 
-import { RIGHT_PAYMENT } from "./constants";
+import { RIGHT_PAYMENT, RIGHT_BILL_PAYMENT_SEARCH } from "./constants";
 
 
 const ROUTE_PAYMENTS = "payment/payments";
+const ROUTE_PAYMENTS_INVOICE = "payment/paymentsInvoice";
 const ROUTE_PAYMENTS_PAYMENT = "payment/new";
 const ROUTE_PAYMENTS_PAYMENT_OVERVIEW = "payment/overview";
 
@@ -32,6 +34,7 @@ const DEFAULT_CONFIG = {
   ],
   "core.Router": [
     { path: ROUTE_PAYMENTS, component: PaymentsPage },
+    { path: ROUTE_PAYMENTS_INVOICE, component: PaymentInvoicesPage },
     { path: ROUTE_PAYMENTS_PAYMENT+ "/:premium_uuid", component: PaymentPage },
     { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", component: PaymentOverviewPage },
   ],
@@ -44,6 +47,14 @@ const DEFAULT_CONFIG = {
       filter: rights => rights.includes(RIGHT_PAYMENT)
     }
   ],
+  "invoice.MainMenu": [
+    {
+      text: <FormattedMessage module="payment" id="menu.payments" />,
+      icon: <PaymentIcon />,
+      route: "/" + ROUTE_PAYMENTS_INVOICE,
+      filter: rights => rights.includes(RIGHT_BILL_PAYMENT_SEARCH)
+    }
+  ]
 }
 
 export const PaymentModule = (cfg) => {

@@ -37,6 +37,30 @@ const PAYMENT_FULL_PROJECTION = mm =>
     "clientMutationId",
 ];
 
+const PAYMENT_INVOICE_FULL_PROJECTION = [
+  "id",
+  "reconciliationStatus",
+  "codeExt",
+  "codeTp",
+  "codeReceipt",
+  "label",
+  "fees",
+  "amountReceived",
+  "datePayment",
+  "paymentOrigin",
+  "payerRef"
+];
+
+const DETAIL_PAYMENT_INVOICE_FULL_PROJECTION = [
+  "id",
+  "status",
+  "fees",
+  "amount",
+  "reconciliationId",
+  "reconciliationDate",
+];
+
+
 export function fetchPremiumsPayments(mm, filters) {
     let payload = formatPageQueryWithCount("paymentsByPremiums",
         filters,
@@ -78,6 +102,24 @@ export function formatPaymentGQL(mm, payment) {
   `
   return req;
 }
+
+const formatPaymentInvoiceGQL = (payment, subjectId, subjectType) =>
+  `
+    ${!!payment.id ? `id: "${payment.id}"` : ""}
+    ${!!subjectId ? `subjectId: "${subjectId}"` : ""}
+    ${!!subjectType ? `subjectType: "${subjectType}"` : ""}
+    ${!!payment.status ? `status: ${payment.status}` : ""}
+    ${!!payment.reconciliationStatus ? `reconciliationStatus: ${payment.reconciliationStatus}` : ""}
+    ${!!payment.codeExt ? `codeExt: "${payment.codeExt}"` : ""}
+    ${!!payment.label ? `label: "${payment.label}"` : ""}
+    ${!!payment.codeTp ? `codeTp: "${payment.codeTp}"` : ""}
+    ${!!payment.codeReceipt ? `codeReceipt: "${payment.codeReceipt}"` : ""}
+    ${!!payment.fees ? `fees: "${payment.fees}"` : ""}
+    ${!!payment.amountReceived ? `amountReceived: "${payment.amountReceived}"` : ""}
+    ${!!payment.datePayment ? `datePayment: "${payment.datePayment}"` : ""}
+    ${!!payment.paymentOrigin ? `paymentOrigin: "${payment.paymentOrigin}"` : ""}
+    ${!!payment.payerRef ? `payerRef: "${payment.payerRef}"` : ""}
+  `;
 
 export function createPayment(mm, payment, clientMutationLabel) {
     let mutation = formatMutation("createPayment", formatPaymentGQL(mm, payment), clientMutationLabel);
@@ -137,3 +179,49 @@ export function fetchPayment(mm, paymentUuid, clientMutationId) {
     );
     return graphql(payload, 'PAYMENT_OVERVIEW');
   }
+
+
+export function fetchPaymentInvoices(params) {
+  const payload = formatPageQueryWithCount("paymentInvoice", params, PAYMENT_INVOICE_FULL_PROJECTION);
+  return graphql(payload, "PAYMENTINVOICE__PAYMENT_INVOICE");
+}
+
+export function fetchDetailPaymentInvoices(params) {
+  const payload = formatPageQueryWithCount("detailPaymentInvoice", params, DETAIL_PAYMENT_INVOICE_FULL_PROJECTION);
+  return graphql(payload, "PAYMENTINVOICE__DETAIL_PAYMENT_INVOICE");
+}
+
+export function createPaymentInvoiceWithDetail(paymentInvoice, subjectId, subjectType, clientMutationLabel) {
+  const mutation = formatMutation(
+    "createPaymentWithDetailInvoice", 
+    formatPaymentInvoiceGQL(paymentInvoice, subjectId, subjectType), 
+    clientMutationLabel
+  );
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    ["PAYMENT_MUTATION_REQ", "PAYMENTINVOICE_CREATE_PAYMENT_INVOICE_WITH_DETAIL_RESP", "PAYMENT_MUTATION_ERR"],
+    {
+      actionType: "PAYMENTINVOICE_CREATE_PAYMENT_INVOICE_WITH_DETAIL",
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function deletePaymentInvoice(paymentInvoice, clientMutationLabel) {
+  const paymentInvoiceUuids = `uuids: ["${paymentInvoice?.id}"]`;
+  const mutation = formatMutation("deletePaymentInvoice", paymentInvoiceUuids, clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    ["PAYMENT_MUTATION_REQ", "PAYMENTINVOICE_DELETE_PAYMENT_INVOICE_RESP", "PAYMENT_MUTATION_ERR"],
+    {
+      actionType: "PAYMENTINVOICE_DELETE_PAYMENT_INVOICE",
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
