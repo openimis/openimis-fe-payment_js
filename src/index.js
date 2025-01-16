@@ -44,7 +44,8 @@ const DEFAULT_CONFIG = {
       text: <FormattedMessage module="payment" id="menu.payments" />,
       icon: <PaymentIcon />,
       route: "/" + ROUTE_PAYMENTS,
-      filter: rights => rights.includes(RIGHT_PAYMENT)
+      filter: rights => rights.includes(RIGHT_PAYMENT),
+      id: 'insuree.payment',
     }
   ],
   "invoice.MainMenu": [
@@ -52,7 +53,7 @@ const DEFAULT_CONFIG = {
       text: <FormattedMessage module="payment" id="menu.payments" />,
       icon: <PaymentIcon />,
       route: "/" + ROUTE_PAYMENTS_INVOICE,
-      filter: rights => rights.includes(RIGHT_BILL_PAYMENT_SEARCH)
+      filter: rights => rights.includes(RIGHT_BILL_PAYMENT_SEARCH),
     }
   ]
 }
