@@ -54,6 +54,7 @@ const DEFAULT_CONFIG = {
       icon: <PaymentIcon />,
       route: "/" + ROUTE_PAYMENTS_INVOICE,
       filter: rights => rights.includes(RIGHT_BILL_PAYMENT_SEARCH),
+      id: 'insuree.invoice',
     }
   ]
 }
