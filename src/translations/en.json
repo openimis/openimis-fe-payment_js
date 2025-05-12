@@ -74,7 +74,7 @@
       "REFUNDED": "Refunded",
       "CANCELLED": "Cancelled"
     },
-    "codeExt":"Code",
+    "codeExt": "Code",
     "label": "Label",
     "codeTp": "Code Thirdparty",
     "codeReceipt": "Receipt Number",
@@ -90,7 +90,7 @@
     },
     "update": {
       "label": "Update Payment",
-      "mutationLabel":"Update Payment {paymentInvoiceLabel} of {code}"
+      "mutationLabel": "Update Payment {paymentInvoiceLabel} of {code}"
     },
     "delete": {
       "confirm": {
@@ -114,5 +114,9 @@
     "reconciliationDate": "Reconciliation Date"
   },
   "emptyLabel": " ",
-  "any": "Any"
+  "any": "Any",
+  "payment.gql_query_payments_perms": "Payment | Query Payments",
+  "payment.gql_mutation_create_payments_perms": "Payment | Mutation Create Payments",
+  "payment.gql_mutation_update_payments_perms": "Payment | Mutation Update Payments",
+  "payment.gql_mutation_delete_payments_perms": "Payment | Mutation Delete Payments"
 }
