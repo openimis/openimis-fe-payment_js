@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Helmet, withModulesManager, formatMessage, clearCurrentPaginationPage } from "@openimis/fe-core";
 import { injectIntl } from "react-intl";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { connect, useDispatch } from "react-redux";
 import { RIGHT_BILL_PAYMENT_SEARCH } from "../constants";
 import PaymentInvoiceSearcher from "../components/PaymentInvoiceSearcher";

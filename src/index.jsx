@@ -1,5 +1,5 @@
 import React from "react";
-import PaymentIcon from '@material-ui/icons/Payment';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { FormattedMessage } from "@openimis/fe-core";
 
 import messages_en from "./translations/en.json";

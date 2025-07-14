@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/styles";
 import { injectIntl } from 'react-intl';
 import {
     Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
     withHistory,
     withModulesManager,

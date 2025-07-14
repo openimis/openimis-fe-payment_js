@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import ReplayIcon from "@material-ui/icons/Replay"
+import { withTheme, withStyles } from "@mui/styles";
+import ReplayIcon from "@mui/icons-material/Replay";
 import {
     Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
     Form, ProgressOrError, journalize, coreConfirm

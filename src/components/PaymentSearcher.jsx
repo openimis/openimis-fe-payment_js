@@ -3,9 +3,9 @@ import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { IconButton, Tooltip } from "@material-ui/core";
-import TabIcon from "@material-ui/icons/Tab";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { IconButton, Tooltip } from "@mui/material";
+import TabIcon from "@mui/icons-material/Tab";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 import PaymentFilter from "./PaymentFilter";
 import {
     withModulesManager,

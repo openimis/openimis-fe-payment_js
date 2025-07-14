@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@mui/styles";
 
 const styles = theme => ({
     primaryButton: theme.dialog.primaryButton,
@@ -14,7 +14,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { FormattedMessage } from "@openimis/fe-core";
 

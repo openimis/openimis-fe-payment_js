@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { injectIntl } from 'react-intl';
-import ReplayIcon from "@material-ui/icons/Replay"
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import ReplayIcon from "@mui/icons-material/Replay";
+import { withTheme, withStyles } from "@mui/styles";
 import _ from "lodash";
-import { Paper, Grid, Divider, Typography, IconButton, Tooltip } from "@material-ui/core";
+import { Paper, Grid, Divider, Typography, IconButton, Tooltip } from "@mui/material";
 import {
     Add as AddIcon,
     Delete as DeleteIcon,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 
 import {
     formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager, formatMessage, withTooltip,
