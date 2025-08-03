@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import ReplayIcon from "@mui/icons-material/Replay";
 import {
     Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
@@ -13,10 +13,9 @@ import { RIGHT_PAYMENT } from "../constants";
 import { fetchPayment, newPayment, createPayment } from "../actions";
 import PaymentMasterPanel from "./PaymentMasterPanel";
 
-
-const styles = theme => ({
-    lockedPage: theme.page.locked
-});
+const StyledPaymentForm = styled('div')(({ theme }) => ({
+  '&.lockedPage': theme.page.locked
+}));
 
 const PAYMENT_OVERVIEW_MUTATIONS_KEY = "payment.PaymentOverview.mutations";
 
@@ -118,7 +117,6 @@ class PaymentForm extends Component {
     render() {
         const {
             modulesManager,
-            classes,
             state,
             rights,
             payment_uuid,
@@ -141,7 +139,7 @@ class PaymentForm extends Component {
             onlyIfDirty: !readOnly && !runningMutation
         }];
         return (
-            <div className={!!runningMutation ? classes.lockedPage : null}>
+            <StyledPaymentForm className={!!runningMutation ? 'lockedPage' : null}>
                 <Helmet title={formatMessageWithValues(this.props.intl, "payment", "PaymentOverview.title")} />
                 <ProgressOrError progress={fetchingPayment} error={errorPayment} />
                 {((!!fetchedPayment && !!payment && payment.uuid === payment_uuid) || !payment_uuid) && (
@@ -165,7 +163,7 @@ class PaymentForm extends Component {
                         openDirty={save}
                     />
                 )}
-            </div>
+            </StyledPaymentForm>
         )
     }
 }
@@ -187,5 +185,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withHistory(withModulesManager(connect(mapStateToProps, mapDispatchToProps)(
-    injectIntl(withTheme(withStyles(styles)(PaymentForm))
-    ))));
+    injectIntl(PaymentForm)
+    )));

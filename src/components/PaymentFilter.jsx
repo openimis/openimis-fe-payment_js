@@ -3,7 +3,7 @@ import { injectIntl } from "react-intl";
 import _debounce from "lodash/debounce";
 
 import { Grid, Checkbox, FormControlLabel } from "@mui/material";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
 import {
   withModulesManager,
@@ -14,18 +14,13 @@ import {
   formatMessage,
 } from "@openimis/fe-core";
 
-const styles = (theme) => ({
-  dialogTitle: theme.dialog.title,
-  dialogContent: theme.dialog.content,
-  form: {
-    padding: 0,
-    width: "100%",
-  },
-  item: {
+const StyledPaymentFilter = styled('section')(({ theme }) => ({
+  padding: 0,
+  width: "100%",
+  '& .item': {
     padding: theme.spacing(1),
   },
-  paperDivider: theme.paper.divider,
-});
+}));
 
 const PAYMENT_FILTER_CONTRIBUTION_KEY = "payment.Filter";
 
@@ -57,15 +52,15 @@ class PaymentFilter extends Component {
   };
 
   render() {
-    const { classes, filters, onChangeFilters, intl } = this.props;
+    const { filters, onChangeFilters, intl } = this.props;
     return (
-      <section className={classes.form}>
+      <StyledPaymentFilter>
         <Grid container>
           <ControlledField
             module="payment"
             id="PaymentFilter.typeOfPayment"
             field={
-              <Grid item xs={3} className={classes.item}>
+              <Grid item xs={3} className="item">
                 <PublishedComponent
                   pubRef="contribution.PremiumPaymentTypePicker"
                   withNull={true}
@@ -87,7 +82,7 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.status"
             field={
-              <Grid item xs={3} className={classes.item}>
+              <Grid item xs={3} className="item">
                 <PublishedComponent
                   pubRef="payment.PaymentStatusPicker"
                   withNull={true}
@@ -109,7 +104,7 @@ class PaymentFilter extends Component {
             module="contribution"
             id="PaymentFilter.receiptNo"
             field={
-              <Grid item xs={3} className={classes.item}>
+              <Grid item xs={3} className="item">
                 <TextInput
                   module="payment"
                   label="payment.receiptNo"
@@ -136,7 +131,7 @@ class PaymentFilter extends Component {
             field={
               <Grid item xs={6}>
                 <Grid container>
-                  <Grid item xs={6} className={classes.item}>
+                  <Grid item xs={6} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("requestDateFrom")}
@@ -153,7 +148,7 @@ class PaymentFilter extends Component {
                       }
                     />
                   </Grid>
-                  <Grid item xs={6} className={classes.item}>
+                  <Grid item xs={6} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("requestDateTo")}
@@ -180,7 +175,7 @@ class PaymentFilter extends Component {
             field={
               <Grid item xs={6}>
                 <Grid container>
-                  <Grid item xs={6} className={classes.item}>
+                  <Grid item xs={6} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("receivedDateFrom")}
@@ -197,7 +192,7 @@ class PaymentFilter extends Component {
                       }
                     />
                   </Grid>
-                  <Grid item xs={6} className={classes.item}>
+                  <Grid item xs={6} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("receivedDateTo")}
@@ -226,7 +221,7 @@ class PaymentFilter extends Component {
               id="PaymentFilter.amountUnder"
               key={a}
               field={
-                <Grid item xs={3} className={classes.item}>
+                <Grid item xs={3} className="item">
                   <AmountInput
                     module="payment"
                     label={`payment.${a}`}
@@ -251,7 +246,7 @@ class PaymentFilter extends Component {
               id="PaymentFilter.amountUnder"
               key={a}
               field={
-                <Grid item xs={3} className={classes.item}>
+                <Grid item xs={3} className="item">
                   <AmountInput
                     module="payment"
                     label={`payment.${a}`}
@@ -277,7 +272,7 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.showReconciled"
             field={
-              <Grid item xs={2} className={classes.item}>
+              <Grid item xs={2} className="item">
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -300,7 +295,7 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.showHistory"
             field={
-              <Grid item xs={2} className={classes.item}>
+              <Grid item xs={2} className="item">
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -320,11 +315,11 @@ class PaymentFilter extends Component {
             }
           />
         </Grid>
-      </section>
+      </StyledPaymentFilter>
     );
   }
 }
 
 export default withModulesManager(
-  injectIntl(withTheme(withStyles(styles)(PaymentFilter)))
+  injectIntl(PaymentFilter)
 );

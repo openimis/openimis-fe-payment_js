@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { injectIntl } from 'react-intl';
 import ReplayIcon from "@mui/icons-material/Replay";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import _ from "lodash";
 import { Paper, Grid, Divider, Typography, IconButton, Tooltip } from "@mui/material";
 import {
@@ -27,16 +27,16 @@ import {
     FAMILY_TYPE_POLYGAMY_CODE,
  } from "../constants";
 
-const styles = theme => ({
-    paper: theme.paper.paper,
-    paperHeader: theme.paper.header,
-    paperHeaderAction: theme.paper.action,
-    tableTitle: theme.table.title,
-    fab: theme.fab,
-    disabled:{
-        opacity: 0.4,
-    }
-});
+const StyledPremiumsPaymentsOverview = styled('div')(({ theme }) => ({
+  '& .paper': theme.paper.paper,
+  '& .paperHeader': theme.paper.header,
+  '& .paperHeaderAction': theme.paper.action,
+  '& .tableTitle': theme.table.title,
+  '& .fab': theme.fab,
+  '& .disabled': {
+    opacity: 0.4,
+  }
+}));
 
 class PremiumsPaymentsOverview extends PagedDataHandler {
 
@@ -190,7 +190,6 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
     render() {
         const {
             intl,
-            classes,
             family,
             premiumsPayments,
             pageInfo,
@@ -211,7 +210,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         if (!!!readOnly && canAdd) {
             actions.push(
                 {
-                    button: <IconButton className={!premium ? classes.disabled : ""} onClick={this.addNewPayment}><AddIcon /></IconButton>,
+                    button: <IconButton className={!premium ? "disabled" : ""} onClick={this.addNewPayment}><AddIcon /></IconButton>,
                     tooltip: !premium ?
                     formatMessage(intl, "payment", "addNewPayment.tooltip.selectPremium") :
                     formatMessage(intl, "payment", "addNewPayment.tooltip")
@@ -220,15 +219,15 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         }
 
         return (
-            <>
+            <StyledPremiumsPaymentsOverview>
                 <DeletePaymentDialog
                         payment={this.state.deletePayment}
                         onConfirm={() => this.deletePayment()}
                         onCancel={e => this.setState({ deletePayment: null })} />
-                <Paper className={classes.paper}>
-                    <Grid container alignItems="center" direction="row" className={classes.paperHeader}>
+                <Paper className="paper">
+                    <Grid container alignItems="center" direction="row" className="paperHeader">
                         <Grid item xs={8}>
-                            <Typography className={classes.tableTitle}>
+                            <Typography className="tableTitle">
                                 {this.header()}
                             </Typography>
                         </Grid>
@@ -236,7 +235,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                             <Grid container direction="row" justify="flex-end">
                                 {actions.map((a, idx) => {
                                     return (
-                                        <Grid item key={`form-action-${idx}`} className={classes.paperHeaderAction}>
+                                        <Grid item key={`form-action-${idx}`} className="paperHeaderAction">
                                             {withTooltip(a.button, a.tooltip)}
                                         </Grid>
                                     )
@@ -265,7 +264,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                         rowLocked={i => this.rowLocked(i)}
                     />
                 </Paper>
-            </>
+            </StyledPremiumsPaymentsOverview>
         )
     }
 }
@@ -292,4 +291,4 @@ const mapDispatchToProps = dispatch => {
     }, dispatch);
 };
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PremiumsPaymentsOverview)))));
+export default withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(PremiumsPaymentsOverview)));

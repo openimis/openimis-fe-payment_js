@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { withTheme, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import {
   withModulesManager,
   withHistory,
@@ -11,10 +11,10 @@ import {
 import { MODULE_NAME } from "../constants";
 import PaymentSearcher from "../components/PaymentSearcher";
 
-const styles = theme => ({
-    page: theme.page,
-    fab: theme.fab
-});
+const StyledPaymentsPage = styled('div')(({ theme }) => ({
+  '& .page': theme.page,
+  '& .fab': theme.fab
+}));
 
 class PaymentsPage extends Component {
     // onAdd = () => {
@@ -27,23 +27,25 @@ class PaymentsPage extends Component {
       };
 
     render() {
-        const { intl, classes, rights } = this.props;
+        const { intl, rights } = this.props;
         return (
-            <div className={classes.page}>
-                <PaymentSearcher
-                    cacheFiltersKey="paymentsPageFiltersCache"
-                />
-                {/* {rights.includes(RIGHT_PAYMENT_ADD) &&
-                    withTooltip(
-                        <div className={classes.fab}>
-                            <Fab color="primary" onClick={this.onAdd}>
-                                <AddIcon />
-                            </Fab>
-                        </div>,
-                        formatMessage(intl, "payment", "addNewPaymentTooltip")
-                    )
-                } */}
-            </div>
+            <StyledPaymentsPage>
+                <div className="page">
+                    <PaymentSearcher
+                        cacheFiltersKey="paymentsPageFiltersCache"
+                    />
+                    {/* {rights.includes(RIGHT_PAYMENT_ADD) &&
+                        withTooltip(
+                            <div className="fab">
+                                <Fab color="primary" onClick={this.onAdd}>
+                                    <AddIcon />
+                                </Fab>
+                            </div>,
+                            formatMessage(intl, "payment", "addNewPaymentTooltip")
+                        )
+                    } */}
+                </div>
+            </StyledPaymentsPage>
         )
     }
 }
@@ -56,5 +58,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({ clearCurrentPaginationPage }, dispatch);
 
 export default injectIntl(withModulesManager(
-    withHistory(connect(mapStateToProps, mapDispatchToProps)(withTheme(withStyles(styles)(PaymentsPage))))
+    withHistory(connect(mapStateToProps, mapDispatchToProps)(PaymentsPage))
 ));
