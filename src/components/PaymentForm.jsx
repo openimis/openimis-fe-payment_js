@@ -128,7 +128,7 @@ class PaymentForm extends Component {
             add, save, back } = this.props;
         const { payment, newPayment, reset } = this.state;
         if (!rights.includes(RIGHT_PAYMENT)) return null;
-        const runningMutation = !!payment && !!payment.clientMutationId
+        let runningMutation = !!payment && !!payment.clientMutationId
         let contributedMutations = modulesManager.getContribs(PAYMENT_OVERVIEW_MUTATIONS_KEY);
         for (let i = 0; i < contributedMutations.length && !runningMutation; i++) {
             runningMutation = contributedMutations[i](state)
