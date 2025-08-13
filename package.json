@@ -35,7 +35,7 @@
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-url": "^6.1.0",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
     "moment": "^2.25.3",
     "prettier": "^2.3.2",
     "prop-types": "^15.7.2",
@@ -43,7 +43,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-api-middleware": "^3.2.1",
-    "vite": "^5.0.0",
+    "vite": "^7.1.2",
     "vite-plugin-svgr": "^4.1.0"
   },
   "files": [
