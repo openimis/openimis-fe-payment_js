@@ -15,7 +15,7 @@
     "prepare": "npm run build",
     "start": "rollup -c -w"
   },
-  "peerDependency": {
+  "peerDependencies": {
     "react-intl": "^5.8.1"
   },
   "devDependencies": {
