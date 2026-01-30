@@ -226,16 +226,16 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                         onCancel={e => this.setState({ deletePayment: null })} />
                 <Paper className="paper">
                     <Grid container alignItems="center" direction="row" className="paperHeader">
-                        <Grid item xs={8}>
+                        <Grid size={8}>
                             <Typography className="tableTitle">
                                 {this.header()}
                             </Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid size={4}>
                             <Grid container direction="row" justify="flex-end">
                                 {actions.map((a, idx) => {
                                     return (
-                                        <Grid item key={`form-action-${idx}`} className="paperHeaderAction">
+                                        <Grid key={`form-action-${idx}`} className="paperHeaderAction">
                                             {withTooltip(a.button, a.tooltip)}
                                         </Grid>
                                     )
@@ -291,4 +291,5 @@ const mapDispatchToProps = dispatch => {
     }, dispatch);
 };
 
+export { StyledPremiumsPaymentsOverview };
 export default withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(PremiumsPaymentsOverview)));

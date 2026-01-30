@@ -56,4 +56,5 @@ class DeletePaymentDialog extends Component {
     }
 }
 
+export { StyledDeletePaymentDialog };
 export default injectIntl(DeletePaymentDialog);

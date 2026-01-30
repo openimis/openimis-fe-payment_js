@@ -58,7 +58,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
   return (
     <StyledPaymentInvoiceFilter>
       <Grid container className="form">
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <PaymentInvoiceStatusPicker
             label="paymentInvoice.reconciliationStatus.label"
             withNull
@@ -75,7 +75,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             }
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <TextInput
             module="payment"
             label="paymentInvoice.codeExt"
@@ -83,7 +83,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeStringFilter("codeExt", CONTAINS_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <TextInput
             module="payment"
             label="paymentInvoice.label"
@@ -91,7 +91,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeStringFilter("label", STARTS_WITH_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <TextInput
             module="payment"
             label="paymentInvoice.codeTp"
@@ -99,7 +99,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeStringFilter("codeTp", CONTAINS_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <TextInput
             module="payment"
             label="paymentInvoice.codeReceipt"
@@ -107,7 +107,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeStringFilter("codeReceipt", CONTAINS_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <NumberInput
             module="payment"
             label="paymentInvoice.fees"
@@ -116,7 +116,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeFilter("fees")}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <NumberInput
             module="payment"
             label="paymentInvoice.amountReceived"
@@ -125,7 +125,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeFilter("amountReceived")}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <PublishedComponent
             pubRef="core.DatePicker"
             module="payment"
@@ -134,7 +134,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeStringFilter("datePayment")}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <TextInput
             module="payment"
             label="paymentInvoice.paymentOrigin"
@@ -142,7 +142,7 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
             onChange={onChangeStringFilter("paymentOrigin", CONTAINS_LOOKUP)}
           />
         </Grid>
-        <Grid item xs={2} className="item">
+        <Grid size={2} className="item">
           <TextInput
             module="payment"
             label="paymentInvoice.payerRef"
@@ -155,4 +155,5 @@ const PaymentInvoiceFilter = ({ intl, filters, onChangeFilters }) => {
   );
 };
 
+export { StyledPaymentInvoiceFilter };
 export default withModulesManager(injectIntl(PaymentInvoiceFilter));

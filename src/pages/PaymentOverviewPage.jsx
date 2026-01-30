@@ -21,4 +21,6 @@ const mapStateToProps = (state, props) => ({
     payment_uuid: props.match.params.payment_uuid,
 })
 
+export { PaymentOverviewPage };
+
 export default withHistory(withModulesManager(connect(mapStateToProps)(PaymentOverviewPage)));

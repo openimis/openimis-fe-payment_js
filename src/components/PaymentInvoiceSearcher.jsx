@@ -171,4 +171,5 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
+export { PaymentInvoiceSearcher };
 export default withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(PaymentInvoiceSearcher)));

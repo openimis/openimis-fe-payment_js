@@ -33,7 +33,7 @@ class PaymentMasterPanel extends FormPanel {
             <StyledPaymentMasterPanel>
                 <Fragment>
                     <Grid container className="item">
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <PublishedComponent pubRef="core.DatePicker"
                                 value={!edited ? "" : edited.receivedDate}
                                 module="payment"
@@ -42,7 +42,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('receivedDate', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <PublishedComponent pubRef="core.DatePicker"
                                 value={!edited ? "" : edited.requestDate}
                                 module="payment"
@@ -51,7 +51,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('requestDate', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <PublishedComponent pubRef="core.DatePicker"
                                 value={!edited ? "" : edited.matchedDate}
                                 module="payment"
@@ -60,7 +60,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('matchedDate', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <PublishedComponent pubRef="core.DatePicker"
                                 value={!edited ? "" : edited.dateLastSms}
                                 module="payment"
@@ -69,7 +69,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('dateLastSms', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <AmountInput
                                 module="payment"
                                 label="payment.expectedAmount"
@@ -78,7 +78,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('expectedAmount', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <AmountInput
                                 module="payment"
                                 label="payment.receivedAmount"
@@ -87,7 +87,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('receivedAmount', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <AmountInput
                                 module="payment"
                                 label="payment.transferFee"
@@ -96,7 +96,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('transferFee', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <PublishedComponent
                                 pubRef="contribution.PremiumPaymentTypePicker"
                                 withNull={false}
@@ -106,7 +106,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('typeOfPayment', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <TextInput
                                 module="payment"
                                 label="payment.receiptNo"
@@ -115,7 +115,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('receiptNo', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <PublishedComponent
                                 pubRef="payment.PaymentStatusPicker"
                                 withNull={false}
@@ -124,7 +124,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('status', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <TextInput
                                 module="payment"
                                 label="payment.origin"
@@ -133,7 +133,7 @@ class PaymentMasterPanel extends FormPanel {
                                 onChange={p => this.updateAttribute('origin', p)}
                             />
                         </Grid>
-                        <Grid item xs={3} className="item">
+                        <Grid size={3} className="item">
                             <TextInput
                                 module="payment"
                                 label="payment.officerCode"
@@ -143,7 +143,7 @@ class PaymentMasterPanel extends FormPanel {
                             />
                         </Grid>
                         {/*  TO-DO: InsureeOfficerPicker is using officer ID and we only have the code */}
-                        {/* <Grid item xs={3} className="item" >
+                        {/* <Grid size={3} className="item" >
                             <PublishedComponent pubRef="insuree.InsureeOfficerPicker"
                                 value={!edited ? "" : edited.officerCode}
                                 module="payment"
@@ -153,7 +153,7 @@ class PaymentMasterPanel extends FormPanel {
                             />
                         </Grid> */}
                         {/*  TO-DO: rejectedReason is set to null in the back if updated */}
-                        {/* <Grid item xs={3} className="item">
+                        {/* <Grid size={3} className="item">
                             <TextInput
                                 module="payment"
                                 label="payment.rejectedReason"
@@ -169,4 +169,5 @@ class PaymentMasterPanel extends FormPanel {
     }
 }
 
+export { StyledPaymentMasterPanel };
 export default withModulesManager(withHistory(injectIntl(PaymentMasterPanel)));

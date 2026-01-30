@@ -184,6 +184,7 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators({ fetchPayment, newPayment, createPayment, journalize, coreConfirm }, dispatch);
 };
 
+export { StyledPaymentForm };
 export default withHistory(withModulesManager(connect(mapStateToProps, mapDispatchToProps)(
     injectIntl(PaymentForm)
     )));
