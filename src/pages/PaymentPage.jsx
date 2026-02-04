@@ -11,7 +11,7 @@ import { createPayment, updatePayment } from "../actions";
 import { RIGHT_PAYMENT_EDIT } from "../constants";
 
 const StyledPaymentPage = styled('div')(({ theme }) => ({
-  '& .page': theme.page,
+  '& .page': theme.page ?? {},
 }));
 
 class PaymentPage extends Component {

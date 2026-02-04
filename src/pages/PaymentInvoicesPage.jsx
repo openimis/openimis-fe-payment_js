@@ -7,7 +7,7 @@ import { RIGHT_BILL_PAYMENT_SEARCH } from "../constants";
 import PaymentInvoiceSearcher from "../components/PaymentInvoiceSearcher";
 
 const StyledPaymentInvoicesPage = styled('div')(({ theme }) => ({
-  '& .page': theme.page,
+  '& .page': theme.page ?? {},
 }));
 
 const PaymentInvoicesPage = ({ intl, rights }) => {

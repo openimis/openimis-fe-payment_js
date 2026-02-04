@@ -12,8 +12,8 @@ import { MODULE_NAME } from "../constants";
 import PaymentSearcher from "../components/PaymentSearcher";
 
 const StyledPaymentsPage = styled('div')(({ theme }) => ({
-  '& .page': theme.page,
-  '& .fab': theme.fab
+  '& .page': theme.page ?? {},
+  '& .fab': theme.fab ?? {}
 }));
 
 class PaymentsPage extends Component {

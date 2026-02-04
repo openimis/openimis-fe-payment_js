@@ -14,7 +14,7 @@ import { fetchPayment, newPayment, createPayment } from "../actions";
 import PaymentMasterPanel from "./PaymentMasterPanel";
 
 const StyledPaymentForm = styled('div')(({ theme }) => ({
-  '&.lockedPage': theme.page.locked
+  '&.lockedPage': theme.page?.locked ?? {}
 }));
 
 const PAYMENT_OVERVIEW_MUTATIONS_KEY = "payment.PaymentOverview.mutations";

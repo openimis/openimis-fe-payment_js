@@ -28,11 +28,11 @@ import {
  } from "../constants";
 
 const StyledPremiumsPaymentsOverview = styled('div')(({ theme }) => ({
-  '& .paper': theme.paper.paper,
-  '& .paperHeader': theme.paper.header,
-  '& .paperHeaderAction': theme.paper.action,
-  '& .tableTitle': theme.table.title,
-  '& .fab': theme.fab,
+  '& .paper': theme.paper?.paper ?? {},
+  '& .paperHeader': theme.paper?.header ?? {},
+  '& .paperHeaderAction': theme.paper?.action ?? {},
+  '& .tableTitle': theme.table?.title ?? {},
+  '& .fab': theme.fab ?? {},
   '& .disabled': {
     opacity: 0.4,
   }
