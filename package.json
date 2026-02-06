@@ -19,7 +19,14 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^7.1.11"
+    "react-intl": "^7.1.11",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^7.2.0",
+    "@mui/icons-material": "^7.2.0",
+    "redux": "^4.0.5",
+    "react-router-dom": "^5.2.0",
+    "moment": "^2.25.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -36,12 +43,9 @@
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-url": "^6.1.0",
     "@vitejs/plugin-react": "^5.0.0",
-    "moment": "^2.25.3",
     "prettier": "^2.3.2",
     "prop-types": "^15.7.2",
     "react-autosuggest": "^10.0.2",
-    "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5",
     "redux-api-middleware": "^3.2.1",
     "vite": "^7.1.2",
     "vite-plugin-svgr": "^4.1.0"
@@ -50,10 +54,6 @@
     "dist"
   ],
   "dependencies": {
-    "@emotion/cache": "^11.12.0",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^7.2.0",
-    "@mui/material": "^7.2.0"
+    "@emotion/cache": "^11.12.0"
   }
 }
