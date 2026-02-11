@@ -12,6 +12,9 @@ import {
   ControlledField,
   TextInput,
   formatMessage,
+  GRID_RESPONSIVE_STANDARD,
+  GRID_RESPONSIVE_SMALL,
+  GRID_RESPONSIVE_HALF,
 } from "@openimis/fe-core";
 
 const StyledPaymentFilter = styled('section')(({ theme }) => ({
@@ -60,7 +63,7 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.typeOfPayment"
             field={
-              <Grid size={3} className="item">
+              <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <PublishedComponent
                   pubRef="contribution.PremiumPaymentTypePicker"
                   withNull={true}
@@ -82,7 +85,7 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.status"
             field={
-              <Grid size={3} className="item">
+              <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <PublishedComponent
                   pubRef="payment.PaymentStatusPicker"
                   withNull={true}
@@ -104,7 +107,7 @@ class PaymentFilter extends Component {
             module="contribution"
             id="PaymentFilter.receiptNo"
             field={
-              <Grid size={3} className="item">
+              <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                 <TextInput
                   module="payment"
                   label="payment.receiptNo"
@@ -129,9 +132,9 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.requestDate"
             field={
-              <Grid size={6}>
+              <Grid size={GRID_RESPONSIVE_STANDARD}>
                 <Grid container>
-                  <Grid size={6} className="item">
+                  <Grid size={GRID_RESPONSIVE_HALF} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("requestDateFrom")}
@@ -148,7 +151,7 @@ class PaymentFilter extends Component {
                       }
                     />
                   </Grid>
-                  <Grid size={6} className="item">
+                  <Grid size={GRID_RESPONSIVE_HALF} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("requestDateTo")}
@@ -173,9 +176,9 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.receivedDate"
             field={
-              <Grid size={6}>
+              <Grid size={GRID_RESPONSIVE_STANDARD}>
                 <Grid container>
-                  <Grid size={6} className="item">
+                  <Grid size={GRID_RESPONSIVE_HALF} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("receivedDateFrom")}
@@ -192,7 +195,7 @@ class PaymentFilter extends Component {
                       }
                     />
                   </Grid>
-                  <Grid size={6} className="item">
+                  <Grid size={GRID_RESPONSIVE_HALF} className="item">
                     <PublishedComponent
                       pubRef="core.DatePicker"
                       value={this._filterValue("receivedDateTo")}
@@ -221,7 +224,7 @@ class PaymentFilter extends Component {
               id="PaymentFilter.amountUnder"
               key={a}
               field={
-                <Grid size={3} className="item">
+                <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                   <AmountInput
                     module="payment"
                     label={`payment.${a}`}
@@ -246,7 +249,7 @@ class PaymentFilter extends Component {
               id="PaymentFilter.amountUnder"
               key={a}
               field={
-                <Grid size={3} className="item">
+                <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
                   <AmountInput
                     module="payment"
                     label={`payment.${a}`}
@@ -265,14 +268,11 @@ class PaymentFilter extends Component {
               }
             />
           ))}
-        </Grid>
-
-        <Grid container>
           <ControlledField
             module="payment"
             id="PaymentFilter.showReconciled"
             field={
-              <Grid size={2} className="item">
+              <Grid size={GRID_RESPONSIVE_SMALL} className="item">
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -295,7 +295,7 @@ class PaymentFilter extends Component {
             module="payment"
             id="PaymentFilter.showHistory"
             field={
-              <Grid size={2} className="item">
+              <Grid size={GRID_RESPONSIVE_SMALL} className="item">
                 <FormControlLabel
                   control={
                     <Checkbox
