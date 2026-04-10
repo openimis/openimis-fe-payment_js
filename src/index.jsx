@@ -1,6 +1,5 @@
 import React from "react";
-import PaymentIcon from '@mui/icons-material/Payment';
-import { FormattedMessage } from "@openimis/fe-core";
+import { GetIconComponent, FormattedMessage } from "@openimis/fe-core";
 
 import messages_en from "./translations/en.json";
 import PremiumsPaymentsOverview from "./components/PremiumsPaymentsOverview";
@@ -14,6 +13,7 @@ import reducer from "./reducer";
 
 import { RIGHT_PAYMENT, RIGHT_BILL_PAYMENT_SEARCH } from "./constants";
 
+const PaymentIcon = GetIconComponent("Payment");
 
 const ROUTE_PAYMENTS = "payment/payments";
 const ROUTE_PAYMENTS_INVOICE = "payment/paymentsInvoice";

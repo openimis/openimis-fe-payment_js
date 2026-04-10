@@ -3,10 +3,9 @@ import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { styled } from "@mui/material/styles";
-import ReplayIcon from "@mui/icons-material/Replay";
 import {
     Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
-    Form, ProgressOrError, journalize, coreConfirm
+    GetIconComponent, Form, ProgressOrError, journalize, coreConfirm
 } from "@openimis/fe-core";
 import { RIGHT_PAYMENT } from "../constants";
 
@@ -16,6 +15,7 @@ import PaymentMasterPanel from "./PaymentMasterPanel";
 const StyledPaymentForm = styled('div')(({ theme }) => ({
   '&.lockedPage': theme.page?.locked ?? {}
 }));
+const ReplayIcon = GetIconComponent("Replay")
 
 const PAYMENT_OVERVIEW_MUTATIONS_KEY = "payment.PaymentOverview.mutations";
 

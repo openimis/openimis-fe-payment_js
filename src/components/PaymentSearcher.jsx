@@ -4,8 +4,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import { IconButton, Tooltip } from "@mui/material";
-import TabIcon from "@mui/icons-material/Tab";
-import { Delete as DeleteIcon } from "@mui/icons-material";
+
+
 import PaymentFilter from "./PaymentFilter";
 import {
     withModulesManager,
@@ -18,8 +18,10 @@ import {
     journalize,
     withHistory,
     historyPush,
+    GetIconComponent,
 } from "@openimis/fe-core";
-
+const TabIcon = GetIconComponent("Tab")
+const DeleteIcon = GetIconComponent("Delete")
 import { fetchPaymentsSummaries, deletePayment } from "../actions";
 import { RIGHT_PAYMENT_DELETE, RIGHT_PAYMENT_EDIT } from "../constants";
 import DeletePaymentDialog from "./DeletePaymentDialog";

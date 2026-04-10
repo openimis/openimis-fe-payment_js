@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Edit as EditIcon } from "@mui/icons-material";
-import { historyPush, withModulesManager, withHistory } from "@openimis/fe-core";
+
+import { GetIconComponent, historyPush, withModulesManager, withHistory } from "@openimis/fe-core";
 import PaymentPage from "./PaymentPage";
+const EditIcon = GetIconComponent("Edit")
 
 
 class PaymentOverviewPage extends Component {
