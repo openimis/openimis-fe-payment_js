@@ -33,28 +33,21 @@ const DEFAULT_CONFIG = {
     { key: "payment.paymentOverview", ref: ROUTE_PAYMENTS_PAYMENT_OVERVIEW },
   ],
   "core.Router": [
-    { path: ROUTE_PAYMENTS, component: PaymentsPage },
-    { path: ROUTE_PAYMENTS_INVOICE, component: PaymentInvoicesPage },
-    { path: ROUTE_PAYMENTS_PAYMENT+ "/:premium_uuid", component: PaymentPage },
-    { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", component: PaymentOverviewPage },
+    { path: ROUTE_PAYMENTS, text: "payment.menu.payments",id: 'insuree.payment', icon: "paymentIcon", rights: [RIGHT_PAYMENT], component: PaymentsPage },
+    { path: ROUTE_PAYMENTS_INVOICE, text: "payment.menu.payments", icon: "paymentIcon", rights: [RIGHT_BILL_PAYMENT_SEARCH], id: 'insuree.invoice',component: PaymentInvoicesPage },
+    { path: ROUTE_PAYMENTS_PAYMENT+ "/:premium_uuid", rights: [RIGHT_PAYMENT], component: PaymentPage },
+    { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", rights: [RIGHT_BILL_PAYMENT_SEARCH],  component: PaymentOverviewPage },
   ],
   "insuree.FamilyOverview.panels": [PremiumsPaymentsOverview],
   "insuree.MainMenu": [
     {
-      text: <FormattedMessage module="payment" id="menu.payments" />,
-      icon: <PaymentIcon />,
-      route: "/" + ROUTE_PAYMENTS,
-      filter: rights => rights.includes(RIGHT_PAYMENT),
-      id: 'insuree.payment',
+      route:  ROUTE_PAYMENTS,
     }
   ],
   "invoice.MainMenu": [
     {
-      text: <FormattedMessage module="payment" id="menu.payments" />,
-      icon: <PaymentIcon />,
-      route: "/" + ROUTE_PAYMENTS_INVOICE,
-      filter: rights => rights.includes(RIGHT_BILL_PAYMENT_SEARCH),
-      id: 'insuree.invoice',
+      route: ROUTE_PAYMENTS_INVOICE,
+      
     }
   ]
 }
