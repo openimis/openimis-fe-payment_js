@@ -133,20 +133,11 @@ class PaymentSearcher extends Component {
         const formatters = [
             p => formatDateFromISO(modulesManager, intl, p.receivedDate),
             p => formatDateFromISO(modulesManager, intl, p.requestDate),
-            p => formatAmount(intl, p.expectedAmount),
-            p => formatAmount(intl, p.receivedAmount),
-            p => <PublishedComponent
-                readOnly={true}
-                pubRef="contribution.PremiumPaymentTypePicker" withLabel={false} value={p.typeOfPayment}
-            />,
+            p => formatAmount(modulesManager, intl, p.expectedAmount),
+            p => formatAmount(modulesManager, intl, p.receivedAmount),
+            p => formatMessage(intl, "contribution", `payType.${p.typeOfPayment}`),
             p => p.receiptNo,
-            p => <PublishedComponent
-                readOnly={true}
-                pubRef="payment.PaymentStatusPicker"
-                withLabel={false}
-                value={p.status}
-                nullLabel="payment.status.none"
-            />
+            p => formatMessage(intl, "payment", `payment.status.${p.status}`)
         ];
         if (rights.includes(RIGHT_PAYMENT_EDIT)) {
             formatters.push((p) => (
