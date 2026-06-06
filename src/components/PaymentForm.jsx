@@ -2,21 +2,20 @@ import React, { Component, Fragment } from "react";
 import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { withTheme, withStyles } from "@material-ui/core/styles";
-import ReplayIcon from "@material-ui/icons/Replay"
+import { styled } from "@mui/material/styles";
 import {
     Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
-    Form, ProgressOrError, journalize, coreConfirm
+    GetIconComponent, Form, ProgressOrError, journalize, coreConfirm
 } from "@openimis/fe-core";
 import { RIGHT_PAYMENT } from "../constants";
 
 import { fetchPayment, newPayment, createPayment } from "../actions";
 import PaymentMasterPanel from "./PaymentMasterPanel";
 
-
-const styles = theme => ({
-    lockedPage: theme.page.locked
-});
+const StyledPaymentForm = styled('div')(({ theme }) => ({
+  '&.lockedPage': theme.page?.locked ?? {}
+}));
+const ReplayIcon = GetIconComponent("Replay")
 
 const PAYMENT_OVERVIEW_MUTATIONS_KEY = "payment.PaymentOverview.mutations";
 
@@ -118,7 +117,6 @@ class PaymentForm extends Component {
     render() {
         const {
             modulesManager,
-            classes,
             state,
             rights,
             payment_uuid,
@@ -130,7 +128,7 @@ class PaymentForm extends Component {
             add, save, back } = this.props;
         const { payment, newPayment, reset } = this.state;
         if (!rights.includes(RIGHT_PAYMENT)) return null;
-        const runningMutation = !!payment && !!payment.clientMutationId
+        let runningMutation = !!payment && !!payment.clientMutationId
         let contributedMutations = modulesManager.getContribs(PAYMENT_OVERVIEW_MUTATIONS_KEY);
         for (let i = 0; i < contributedMutations.length && !runningMutation; i++) {
             runningMutation = contributedMutations[i](state)
@@ -141,7 +139,7 @@ class PaymentForm extends Component {
             onlyIfDirty: !readOnly && !runningMutation
         }];
         return (
-            <div className={!!runningMutation ? classes.lockedPage : null}>
+            <StyledPaymentForm className={!!runningMutation ? 'lockedPage' : null}>
                 <Helmet title={formatMessageWithValues(this.props.intl, "payment", "PaymentOverview.title")} />
                 <ProgressOrError progress={fetchingPayment} error={errorPayment} />
                 {((!!fetchedPayment && !!payment && payment.uuid === payment_uuid) || !payment_uuid) && (
@@ -165,7 +163,7 @@ class PaymentForm extends Component {
                         openDirty={save}
                     />
                 )}
-            </div>
+            </StyledPaymentForm>
         )
     }
 }
@@ -186,6 +184,7 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators({ fetchPayment, newPayment, createPayment, journalize, coreConfirm }, dispatch);
 };
 
+export { StyledPaymentForm };
 export default withHistory(withModulesManager(connect(mapStateToProps, mapDispatchToProps)(
-    injectIntl(withTheme(withStyles(styles)(PaymentForm))
-    ))));
+    injectIntl(PaymentForm)
+    )));

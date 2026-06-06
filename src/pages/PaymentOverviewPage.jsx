@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Edit as EditIcon } from "@material-ui/icons";
-import { historyPush, withModulesManager, withHistory } from "@openimis/fe-core";
+
+import { GetIconComponent, historyPush, withModulesManager, withHistory } from "@openimis/fe-core";
 import PaymentPage from "./PaymentPage";
+const EditIcon = GetIconComponent("Edit")
 
 
 class PaymentOverviewPage extends Component {
@@ -20,5 +21,7 @@ class PaymentOverviewPage extends Component {
 const mapStateToProps = (state, props) => ({
     payment_uuid: props.match.params.payment_uuid,
 })
+
+export { PaymentOverviewPage };
 
 export default withHistory(withModulesManager(connect(mapStateToProps)(PaymentOverviewPage)));

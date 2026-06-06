@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 import {
     formatMessageWithValues, withModulesManager, withHistory, historyPush,
 } from "@openimis/fe-core";
@@ -10,9 +10,9 @@ import PaymentForm from "../components/PaymentForm";
 import { createPayment, updatePayment } from "../actions";
 import { RIGHT_PAYMENT_EDIT } from "../constants";
 
-const styles = theme => ({
-    page: theme.page,
-});
+const StyledPaymentPage = styled('div')(({ theme }) => ({
+  '& .page': theme.page ?? {},
+}));
 
 class PaymentPage extends Component {
 
@@ -47,7 +47,6 @@ class PaymentPage extends Component {
 
     render() {
         const {
-            classes,
             modulesManager,
             premium_uuid,
             history,
@@ -58,17 +57,19 @@ class PaymentPage extends Component {
         if (!rights.includes(RIGHT_PAYMENT_EDIT)) return null;
 
         return (
-            <div className={classes.page}>
-                <PaymentForm
-                    overview={overview}
-                    payment_uuid={payment_uuid}
-                    premium_uuid={premium_uuid}
-                    back={e =>  window.history.back()}
-                    // back={e => historyPush(modulesManager, history, "payment.payments")}
-                    // add={rights.includes(RIGHT_PAYMENT_ADD) ? this.add : null}
-                    save={rights.includes(RIGHT_PAYMENT_EDIT) ? this.save : null}
-                />
-            </div>
+            <StyledPaymentPage>
+                <div className="page">
+                    <PaymentForm
+                        overview={overview}
+                        payment_uuid={payment_uuid}
+                        premium_uuid={premium_uuid}
+                        back={e =>  window.history.back()}
+                        // back={e => historyPush(modulesManager, history, "payment.payments")}
+                        // add={rights.includes(RIGHT_PAYMENT_ADD) ? this.add : null}
+                        save={rights.includes(RIGHT_PAYMENT_EDIT) ? this.save : null}
+                    />
+                </div>
+            </StyledPaymentPage>
         )
     }
 }
@@ -83,6 +84,7 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators({ createPayment, updatePayment }, dispatch);
 };
 
+export { StyledPaymentPage };
 export default withHistory(withModulesManager(connect(mapStateToProps, mapDispatchToProps)(
-    injectIntl(withTheme(withStyles(styles)(PaymentPage))
-    ))));
+    injectIntl(PaymentPage)
+    )));

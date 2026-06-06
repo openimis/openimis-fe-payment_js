@@ -3,9 +3,9 @@ import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { IconButton, Tooltip } from "@material-ui/core";
-import TabIcon from "@material-ui/icons/Tab";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { IconButton, Tooltip } from "@mui/material";
+
+
 import PaymentFilter from "./PaymentFilter";
 import {
     withModulesManager,
@@ -18,8 +18,10 @@ import {
     journalize,
     withHistory,
     historyPush,
+    GetIconComponent,
 } from "@openimis/fe-core";
-
+const TabIcon = GetIconComponent("Tab")
+const DeleteIcon = GetIconComponent("Delete")
 import { fetchPaymentsSummaries, deletePayment } from "../actions";
 import { RIGHT_PAYMENT_DELETE, RIGHT_PAYMENT_EDIT } from "../constants";
 import DeletePaymentDialog from "./DeletePaymentDialog";
@@ -133,18 +135,9 @@ class PaymentSearcher extends Component {
             p => formatDateFromISO(modulesManager, intl, p.requestDate),
             p => formatAmount(modulesManager, intl, p.expectedAmount),
             p => formatAmount(modulesManager, intl, p.receivedAmount),
-            p => <PublishedComponent
-                readOnly={true}
-                pubRef="contribution.PremiumPaymentTypePicker" withLabel={false} value={p.typeOfPayment}
-            />,
+            p => formatMessage(intl, "contribution", `payType.${p.typeOfPayment}`),
             p => p.receiptNo,
-            p => <PublishedComponent
-                readOnly={true}
-                pubRef="payment.PaymentStatusPicker"
-                withLabel={false}
-                value={p.status}
-                nullLabel="payment.status.none"
-            />
+            p => formatMessage(intl, "payment", `payment.status.${p.status}`)
         ];
         if (rights.includes(RIGHT_PAYMENT_EDIT)) {
             formatters.push((p) => (
@@ -242,4 +235,5 @@ const mapDispatchToProps = dispatch => {
         dispatch);
 };
 
+export { PAYMENT_SEARCHER_CONTRIBUTION_KEY };
 export default withModulesManager(withHistory(connect(mapStateToProps, mapDispatchToProps)(injectIntl(PaymentSearcher))));
