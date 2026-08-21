@@ -39,10 +39,11 @@ const DEFAULT_CONFIG = {
     { path: ROUTE_PAYMENTS_PAYMENT_OVERVIEW + "/:payment_uuid", rights: [RIGHT_BILL_PAYMENT_SEARCH],  component: PaymentOverviewPage },
   ],
   "insuree.FamilyOverview.panels": [PremiumsPaymentsOverview],
-  "insuree.MainMenu": [
+  "insuree.MainMenu": (modulesManager) => [
     {
-      route:  ROUTE_PAYMENTS,
-    }
+      route: ROUTE_PAYMENTS,
+      hide: modulesManager.getConf("fe-policy", "enableInvoicePaymentMode", false),
+    },
   ],
   "invoice.MainMenu": [
     {

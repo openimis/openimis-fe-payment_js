@@ -199,6 +199,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
             rights,
             fetchingPremiumsPayments,
         } = this.props;
+        if (this.props.modulesManager.getConf("fe-policy", "enableInvoicePaymentMode", false)) return null;
         if (!family.uuid ||(!!family.familyType && family.familyType.code == FAMILY_TYPE_POLYGAMY_CODE) || (!!edited && !!edited.familyType && edited.familyType.code == FAMILY_TYPE_POLYGAMY_CODE )) return null;
         const canAdd = rights.includes(RIGHT_PAYMENT_ADD);
         let actions = [
