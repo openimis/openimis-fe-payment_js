@@ -5,6 +5,7 @@ import {
     formatGraphQLError,
     dispatchMutationResp,
     dispatchMutationErr,
+    dispatchMutationDefault,
     dispatchMutationReq,
     decodeId,
 } from '@openimis/fe-core';
@@ -208,8 +209,12 @@ function reducer(
             return dispatchMutationResp(state, "deletePayment", action);
         case 'PAYMENT_CREATE_RESP':
             return dispatchMutationResp(state, "createPayment", action);
+        case 'PAYMENTINVOICE_CREATE_PAYMENT_INVOICE_WITH_DETAIL_RESP':
+            return dispatchMutationResp(state, "createPaymentWithDetailInvoice", action);
+        case 'PAYMENTINVOICE_DELETE_PAYMENT_INVOICE_RESP':
+            return dispatchMutationResp(state, "deletePaymentInvoice", action);
         default:
-            return state;
+            return dispatchMutationDefault(state, action);
     }
 }
 
