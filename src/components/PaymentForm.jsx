@@ -75,9 +75,7 @@ class PaymentForm extends Component {
             this.setState((state, props) => ({
                 payment: { ...state.payment, clientMutationId: props.mutation.clientMutationId }
             }));
-        } else if (prevProps.confirmed !== this.props.confirmed && !!this.props.confirmed && !!this.state.confirmedAction) {
-            this.state.confirmedAction();
-        }
+    }
     }
 
     reload = () => {
@@ -104,14 +102,9 @@ class PaymentForm extends Component {
         this.setState({ payment, newPayment: false })
     }
 
-    onActionToConfirm = (title, message, confirmedAction) => {
-        this.setState(
-            { confirmedAction },
-            this.props.coreConfirm(
-                title,
-                message
-            )
-        )
+    onActionToConfirm = (title, message, onConfirm) => {
+        // The action goes with the question, so only this caller is answered (OP-3190).
+        this.props.coreConfirm(title, message, { onConfirm });
     }
 
     render() {
