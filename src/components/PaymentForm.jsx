@@ -169,7 +169,6 @@ const mapStateToProps = (state, props) => ({
     submittingMutation: state.payment.submittingMutation,
     mutation: state.payment.mutation,
     payment: state.payment.payment,
-    confirmed: state.core.confirmed,
     state: state,
 })
 
