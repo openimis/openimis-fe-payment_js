@@ -152,7 +152,6 @@ export function updatePayment(mm, payment, clientMutationLabel) {
 
 export function deletePayment(mm, payment, clientMutationLabel) {
   let mutation = formatMutation("deletePayment", `uuids: ["${payment.uuid}"]`, clientMutationLabel);
-  payment.clientMutationId = mutation.clientMutationId;
   var requestedDateTime = new Date();
   return graphql(
     mutation.payload,
