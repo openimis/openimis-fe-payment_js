@@ -5,6 +5,7 @@ import {
     formatGraphQLError,
     dispatchMutationResp,
     dispatchMutationErr,
+    dispatchMutationDefault,
     dispatchMutationReq,
     decodeId,
 } from '@openimis/fe-core';
@@ -198,8 +199,16 @@ function reducer(
                 errorDetailPaymentInvoices: formatServerError(action.payload),
             };
         
-        case 'PAYMENT_MUTATION_REQ':
-            return dispatchMutationReq(state, action)
+        case 'PAYMENT_MUTATION_REQ': {
+            // Lock the row under mutation (see the searchers' rowLocked) on a copy:
+            // the rows in state must not be written in place.
+            const next = dispatchMutationReq(state, action);
+            const uuid = action.meta?.paymentUuid;
+            if (!uuid) return next;
+            const lock = (rows) => rows?.map((r) =>
+                r.uuid === uuid ? { ...r, clientMutationId: action.meta.clientMutationId } : r);
+            return { ...next, payments: lock(state.payments), premiumsPayments: lock(state.premiumsPayments) };
+        }
         case 'PAYMENT_MUTATION_ERR':
                 return dispatchMutationErr(state, action);
         case 'PAYMENT_UPDATE_RESP':
@@ -208,8 +217,12 @@ function reducer(
             return dispatchMutationResp(state, "deletePayment", action);
         case 'PAYMENT_CREATE_RESP':
             return dispatchMutationResp(state, "createPayment", action);
+        case 'PAYMENTINVOICE_CREATE_PAYMENT_INVOICE_WITH_DETAIL_RESP':
+            return dispatchMutationResp(state, "createPaymentWithDetailInvoice", action);
+        case 'PAYMENTINVOICE_DELETE_PAYMENT_INVOICE_RESP':
+            return dispatchMutationResp(state, "deletePaymentInvoice", action);
         default:
-            return state;
+            return dispatchMutationDefault(state, action);
     }
 }
 

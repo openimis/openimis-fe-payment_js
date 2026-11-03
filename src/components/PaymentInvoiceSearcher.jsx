@@ -157,7 +157,6 @@ const mapStateToProps = (state) => ({
   paymentInvoicesTotalCount: state.invoice.paymentInvoicesTotalCount,
   submittingMutation: state.invoice.submittingMutation,
   mutation: state.invoice.mutation,
-  confirmed: state.core.confirmed,
 });
 
 const mapDispatchToProps = (dispatch) => {
