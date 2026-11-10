@@ -26,7 +26,9 @@ export default defineConfig({
     svgr()
   ],
   define: {
-    'process.env.NODE_ENV': JSON.stringify('production'),
+    // Vitest sets NODE_ENV=test before loading this config: keep React in dev
+    // mode under test (react-dom/test-utils' act() is a no-op in production).
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   },
   resolve: {
     alias: {
@@ -114,5 +116,19 @@ export default defineConfig({
   },
   ssr: {
     noExternal,
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./tests/setupTests.js'],
+    include: ['tests/**/*.test.{js,jsx}', 'src/**/*.test.{js,jsx}'],
+    alias: {
+      '@openimis/fe-core': path.resolve(__dirname, 'tests/mocks/feCore.jsx'),
+    },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+      include: ['src/**/*.{js,jsx}'],
+      exclude: ['src/index.jsx'],
+    },
   },
 });
