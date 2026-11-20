@@ -2,9 +2,7 @@
 import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { injectIntl } from "react-intl";
 import { IconButton, Tooltip } from "@mui/material";
-
 
 import PaymentFilter from "./PaymentFilter";
 import {
@@ -19,6 +17,7 @@ import {
     withHistory,
     historyPush,
     GetIconComponent,
+    injectIntl,
 } from "@openimis/fe-core";
 const TabIcon = GetIconComponent("Tab")
 const DeleteIcon = GetIconComponent("Delete")

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { styled } from "@mui/material/styles";
 import {
-    formatMessageWithValues, withModulesManager, withHistory, historyPush,
+    formatMessageWithValues, withModulesManager, withHistory, historyPush, injectIntl,
 } from "@openimis/fe-core";
 import PaymentForm from "../components/PaymentForm";
 import { createPayment, updatePayment } from "../actions";

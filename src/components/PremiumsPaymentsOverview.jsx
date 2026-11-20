@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { injectIntl } from 'react-intl';
 import { styled } from "@mui/material/styles";
 import _ from "lodash";
 import { Paper, Grid, Divider, Typography, IconButton, Tooltip } from "@mui/material";
-import { GetIconComponent } from "@openimis/fe-core";
+import { GetIconComponent, injectIntl } from "@openimis/fe-core";
 const AddIcon = GetIconComponent("Add")
 const DeleteIcon = GetIconComponent("Delete")
 const ReplayIcon = GetIconComponent("Replay")
-
 
 import {
     formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager, formatMessage, withTooltip,
@@ -225,7 +223,9 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                         onConfirm={() => this.deletePayment()}
                         onCancel={e => this.setState({ deletePayment: null })} />
                 <Paper className="paper">
-                    <Grid container alignItems="center" direction="row" className="paperHeader">
+                    <Grid container direction="row" className="paperHeader" sx={{
+                        alignItems: "center"
+                    }}>
                         <Grid size={8}>
                             <Typography className="tableTitle">
                                 {this.header()}
@@ -265,7 +265,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                     />
                 </Paper>
             </StyledPremiumsPaymentsOverview>
-        )
+        );
     }
 }
 

@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { injectIntl } from 'react-intl';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { styled } from "@mui/material/styles";
 import {
     Helmet, formatMessageWithValues, withModulesManager, withHistory, historyPush,
-    GetIconComponent, Form, ProgressOrError, journalize, coreConfirm
+    GetIconComponent, Form, ProgressOrError, journalize, coreConfirm, injectIntl
 } from "@openimis/fe-core";
 import { RIGHT_PAYMENT } from "../constants";
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Tab } from "@mui/material";
-import { PublishedComponent, formatMessage } from "@openimis/fe-core";
+import { PublishedComponent, formatMessage, Tab } from "@openimis/fe-core";
 import { PAYMENTS_TAB_VALUE } from "../constants";
 import PaymentSearcher from "./PaymentSearcher";
 
