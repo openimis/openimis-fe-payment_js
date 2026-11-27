@@ -24,7 +24,7 @@ class PaymentsTabPanel extends Component {
         const { value, isTabsEnabled, additionalFilter } = this.props;
         return (
             <PublishedComponent
-                pubRef="policyHolder.TabPanel"
+                pubRef="core.TabPanel"
                 module="payment"
                 index={PAYMENTS_TAB_VALUE}
                 value={value}
