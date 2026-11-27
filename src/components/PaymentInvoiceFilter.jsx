@@ -1,11 +1,10 @@
 import React from "react";
-import { injectIntl } from "react-intl";
 import _debounce from "lodash/debounce";
 
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { withModulesManager, formatMessage, TextInput, NumberInput, PublishedComponent, GRID_RESPONSIVE_STANDARD } from "@openimis/fe-core";
+import { withModulesManager, formatMessage, TextInput, NumberInput, PublishedComponent, GRID_RESPONSIVE_STANDARD, injectIntl } from "@openimis/fe-core";
 import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME, STARTS_WITH_LOOKUP } from "../constants";
 import PaymentInvoiceStatusPicker from "../pickers/PaymentInvoiceStatusPicker";
 

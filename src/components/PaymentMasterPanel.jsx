@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { styled } from "@mui/material/styles";
-import { injectIntl } from 'react-intl';
 import {
     Grid,
 } from "@mui/material";
@@ -11,6 +10,7 @@ import {
     TextInput,
     PublishedComponent,
     FormPanel,
+    injectIntl,
 } from "@openimis/fe-core";
 
 const StyledPaymentMasterPanel = styled('div')(({ theme }) => ({

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { injectIntl } from "react-intl";
 import { styled } from "@mui/material/styles";
 import {
   withModulesManager,
   withHistory,
   clearCurrentPaginationPage,
+  injectIntl,
 } from "@openimis/fe-core";
 import { MODULE_NAME } from "../constants";
 import PaymentSearcher from "../components/PaymentSearcher";
