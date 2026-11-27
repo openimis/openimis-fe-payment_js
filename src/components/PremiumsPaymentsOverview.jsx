@@ -1,21 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { injectIntl } from 'react-intl';
 import { styled } from "@mui/material/styles";
 import _ from "lodash";
 import { Paper, Grid, Divider, Typography, IconButton, Tooltip } from "@mui/material";
-import { GetIconComponent } from "@openimis/fe-core";
-const AddIcon = GetIconComponent("Add")
-const DeleteIcon = GetIconComponent("Delete")
-const ReplayIcon = GetIconComponent("Replay")
-
-
 import {
-    formatMessageWithValues, formatAmount, formatDateFromISO, withModulesManager, formatMessage, withTooltip,
-    formatSorter, sort,
-    journalize,
-    PublishedComponent, Table, PagedDataHandler, historyPush
+  GetIconComponent,
+  injectIntl,
+  formatMessageWithValues,
+  formatAmount,
+  formatDateFromISO,
+  withModulesManager,
+  formatMessage,
+  withTooltip,
+  formatSorter,
+  sort,
+  journalize,
+  PublishedComponent,
+  Table,
+  PagedDataHandler,
+  historyPush,
 } from "@openimis/fe-core";
 
 import { fetchPremiumsPayments, deletePayment } from "../actions";
@@ -26,6 +30,10 @@ import {
     RIGHT_PAYMENT_ADD,
     FAMILY_TYPE_POLYGAMY_CODE,
  } from "../constants";
+
+const AddIcon = GetIconComponent("Add")
+const DeleteIcon = GetIconComponent("Delete")
+const ReplayIcon = GetIconComponent("Replay")
 
 const StyledPremiumsPaymentsOverview = styled('div')(({ theme }) => ({
   '& .paper': theme.paper?.paper ?? {},
@@ -81,7 +89,6 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
         } = this.props;
         historyPush(modulesManager, history, "payment.paymentOverview", [i.uuid], newTab);
     }
-
 
     premiumsChanged = (prevProps) =>
         (!_.isEqual(prevProps.policiesPremiums, this.props.policiesPremiums) && !!this.props.policiesPremiums && !!this.props.policiesPremiums.length) ||
@@ -225,7 +232,9 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                         onConfirm={() => this.deletePayment()}
                         onCancel={e => this.setState({ deletePayment: null })} />
                 <Paper className="paper">
-                    <Grid container alignItems="center" direction="row" className="paperHeader">
+                    <Grid container direction="row" className="paperHeader" sx={{
+                        alignItems: "center"
+                    }}>
                         <Grid size={8}>
                             <Typography className="tableTitle">
                                 {this.header()}
@@ -265,7 +274,7 @@ class PremiumsPaymentsOverview extends PagedDataHandler {
                     />
                 </Paper>
             </StyledPremiumsPaymentsOverview>
-        )
+        );
     }
 }
 

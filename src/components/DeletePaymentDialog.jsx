@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { injectIntl } from 'react-intl';
 import { styled } from "@mui/material/styles";
 
 import {
@@ -11,7 +10,7 @@ import {
     DialogTitle
 } from '@mui/material';
 
-import { FormattedMessage } from "@openimis/fe-core";
+import { FormattedMessage, injectIntl } from "@openimis/fe-core";
 
 const StyledDeletePaymentDialog = styled('div')(({ theme }) => ({
   '& .primaryButton': theme.dialog?.primaryButton ?? {},
